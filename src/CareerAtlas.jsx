@@ -145,7 +145,7 @@ const GLOSSARY = [
   { t: "Merit list", d: "Ranked list of qualified candidates used for round-wise seat allocation" },
 ];
 
-const DOCS = ["Class 10 & 12 mark sheets + admit cards", "Aadhaar card", "Category certificate (SC/ST/OBC-NCL)", "Income certificate", "Domicile certificate", "Passport photos + signature scans", "Bank account in your own name"];
+const DOCS = ["Class 10 & 12 mark sheets + admit cards", "Aadhaar card", "Category certificate (SC/ST/OBC-NCL/EWS)", "Income certificate", "Domicile (State) certificate", "Medical Fitness Certificate (Standard format)", "Gap Certificate (Affidavit) if dropping a year", "Passport photos + signature scans", "Bank account in your own name", "Cancelled cheque of parents (for fee refunds)"];
 
 const RED_FLAGS = [
   "Management-quota seats sold outside official counselling",
@@ -386,6 +386,11 @@ export default function CareerAtlas() {
   // Smart Advisor State
   const [advisorStep, setAdvisorStep] = useState(0);
   const [advisorData, setAdvisorData] = useState({ stream: "", maths: null, bio: null, budget: null, stage: null });
+
+  // Toolkit State
+  const [tkPaceExam, setTkPaceExam] = useState("jee");
+  const [tkDebtT, setTkDebtT] = useState(12);
+  const [tkDebtH, setTkDebtH] = useState(6);
 
   // Scroll to top listener
   useEffect(() => {
@@ -1314,7 +1319,40 @@ export default function CareerAtlas() {
         {/* ── DROP YEAR ── */}
         {tab === "dropyear" && (
           <div key="dropyear" className="clay-pop">
-            <SectionHead eyebrow="A Real Option, Not A Failure" title="Should You Take A Drop Year?" body="10–12 undivided months to fix exactly what went wrong — weighed honestly against the real cost." />
+            <SectionHead eyebrow="A Strategic Decision" title="The Drop Year Masterplan" body="Taking a drop is a massive decision. Know the rules, pick high-yield exams, and always have a safety net." />
+            
+            <ClayCard className="mb-6" style={{ border: "2px solid var(--danger)", background: "var(--danger-bg)" }}>
+              <div className="flex items-center gap-2 mb-2" style={{ color: "#7a3229", fontWeight: 700 }}><ShieldAlert size={18} /> The "One-Chance Only" Rule</div>
+              <p className="clay-body-text mb-3" style={{ color: "#7a3229" }}>Not all exams allow multiple attempts. If you are dropping, you must know your eligibility:</p>
+              <ul className="space-y-2 text-sm" style={{ color: "#7a3229" }}>
+                <li className="flex gap-2"><span className="font-bold">JEE Advanced:</span> Only allows ONE drop year (consecutive to passing 12th).</li>
+                <li className="flex gap-2"><span className="font-bold">BITSAT:</span> Only allows ONE drop year (consecutive to passing 12th).</li>
+                <li className="flex gap-2"><span className="font-bold">NDA:</span> Strict upper age limit of 19.5 years during joining. Most droppers age out.</li>
+                <li className="flex gap-2"><span className="font-bold">NEET & CLAT:</span> No attempt/age limits currently. Very dropper-friendly.</li>
+              </ul>
+            </ClayCard>
+
+            <div className="grid gap-5 mb-6" style={{ gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))" }}>
+              <ClayCard style={{ background: "var(--gold-bg)" }}>
+                <div className="clay-h2 mb-2" style={{ fontSize: 16, color: "#4a3418" }}>High-Yield Drop Exams</div>
+                <p className="clay-body-text mb-3 text-sm" style={{ color: "#4a3418", opacity: 0.8 }}>Exams where 1 extra year of pure syllabus grind translates directly to rank.</p>
+                <ul className="space-y-2 text-sm" style={{ color: "#4a3418" }}>
+                  <li className="flex gap-2"><b>Science:</b> JEE Main, NEET, WBJEE</li>
+                  <li className="flex gap-2"><b>Commerce/Arts:</b> CLAT, IPMAT, CUET</li>
+                </ul>
+              </ClayCard>
+
+              <ClayCard style={{ background: "var(--sci-bg)" }}>
+                <div className="clay-h2 mb-2" style={{ fontSize: 16, color: "#1c3252" }}>The "No Double-Drop" Backups</div>
+                <p className="clay-body-text mb-3 text-sm" style={{ color: "#1c3252", opacity: 0.8 }}>You MUST take these to ensure you don't waste a second year.</p>
+                <ul className="space-y-2 text-sm" style={{ color: "#1c3252" }}>
+                  <li className="flex gap-2"><b>Science:</b> State CETs (MHT-CET, KCET), VITEEE, SRMJEEE</li>
+                  <li className="flex gap-2"><b>Commerce/Arts:</b> CUET (keep maximum domains), Christ/Symbiosis tests</li>
+                </ul>
+              </ClayCard>
+            </div>
+
+            <div className="clay-h2 mb-4" style={{ fontSize: 20 }}>Reality Check</div>
             <div className="grid gap-5" style={{ gridTemplateColumns: "repeat(auto-fit,minmax(210px,1fr))" }}>
               <ClayCard style={{ background: "var(--com-bg)" }}>
                 <div className="flex items-center gap-2 mb-3 font-bold" style={{ color: "#1d3a22" }}><Check size={18} /> What it genuinely gives you</div>
@@ -1332,9 +1370,22 @@ export default function CareerAtlas() {
         {tab === "counselling" && (
           <div key="counselling" className="clay-pop">
             <SectionHead eyebrow="The Part After The Exam" title="Counselling, Reservation & Documents" />
+            
+            <ClayCard className="mb-5" style={{ background: "var(--danger-bg)", border: "2px solid var(--danger)" }}>
+              <div className="flex items-center gap-2 mb-2" style={{ color: "#7a3229", fontWeight: 700 }}>
+                <AlertTriangle size={18} /> Crucial: Certificate Issue Dates
+              </div>
+              <p className="clay-body-text" style={{ color: "#7a3229" }}>For JoSAA (JEE) and MCC (NEET), your <b>OBC-NCL</b> and <b>EWS</b> certificates MUST be issued <b>on or after April 1st of the admission year</b>. A certificate from Class 10 or Class 11 is strictly invalid and will cause you to lose your seat. Also, ensure it is in the <b>Central Government format</b>, not just the state format.</p>
+            </ClayCard>
+
             <ClayCard className="mb-5">
               <div className="clay-h2 mb-2" style={{ fontSize: 16 }}>JoSAA: Freeze / Float / Slide</div>
               <p className="clay-body-text"><b style={{ color: "var(--ink)" }}>Freeze</b> = accept & exit counselling. <b style={{ color: "var(--ink)" }}>Float</b> = accept for now, stay open for a better seat. <b style={{ color: "var(--ink)" }}>Slide</b> = keep the college, stay open for a branch upgrade. Miss a response deadline after being allotted a seat, and your candidature can be cancelled — always check your login after every round. <b style={{ color: "var(--ink)" }}>CSAB</b> fills leftover NIT+ seats after JoSAA ends — but needs a completely fresh registration, your JoSAA choices don't carry over.</p>
+            </ClayCard>
+            <ClayCard className="mb-5">
+              <div className="clay-h2 mb-2" style={{ fontSize: 16 }}>DU CSAS (CUET) & CLAT NLU Counselling</div>
+              <p className="clay-body-text mb-3"><b style={{ color: "var(--ink)" }}>Delhi University (CSAS):</b> It has 3 phases: Application, Preference Filling, and Allocation. Your preference sheet is the single most important document. Always rank colleges by their actual tier (e.g. SRCC, Hindu, Hansraj), NOT by where you think you'll get in. If you get a seat, you MUST accept it to participate in subsequent upgrade rounds.</p>
+              <p className="clay-body-text"><b style={{ color: "var(--ink)" }}>CLAT Consortium:</b> Similar to JoSAA's Float/Freeze, but for NLUs. You have to pay a lock fee to participate. If you select "Float", you keep your current NLU but are considered for higher preferences in the next list.</p>
             </ClayCard>
             <div className="grid gap-5 mb-5" style={{ gridTemplateColumns: "repeat(auto-fit,minmax(210px,1fr))" }}>
               <ClayCard>
@@ -1405,11 +1456,74 @@ export default function CareerAtlas() {
         {/* ── TOOLKIT ── */}
         {tab === "toolkit" && (
           <div key="toolkit" className="clay-pop">
-            <SectionHead eyebrow="Track It, Don't Just Read It" title="Registration Tracker & Fallback Paths" body="Session-only — your ticks won't survive a full reload, so note real progress elsewhere too." />
+            <SectionHead eyebrow="Calculators & Checklists" title="The Ultimate Exam Toolkit" body="Everything you need to survive exam day and plan your future." />
+            
+            <div className="grid gap-5 mb-6" style={{ gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))" }}>
+              {/* Pace Calculator */}
+              <ClayCard>
+                <div className="flex items-center gap-2 mb-3 font-bold text-lg" style={{ color: "var(--ink)" }}><Wind size={18} style={{color:"var(--sci)"}}/> Exam Pace Calculator</div>
+                <div className="flex gap-2 mb-4">
+                  {["jee", "neet", "clat", "cuet"].map(e => (
+                    <button key={e} onClick={() => setTkPaceExam(e)} className={`clay-pill ${tkPaceExam===e ? "clay-pill-active tone-science" : ""}`} style={{padding: "6px 12px", fontSize: 12}}>
+                      {e.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
+                {tkPaceExam === "jee" && <div className="clay-body-text"><b>JEE Main:</b> 75 Qs / 180 mins = <b style={{color:"var(--danger)", fontSize:16}}>2m 24s</b> per question.</div>}
+                {tkPaceExam === "neet" && <div className="clay-body-text"><b>NEET:</b> 200 Qs / 180 mins = <b style={{color:"var(--danger)", fontSize:16}}>54 seconds</b> per question. Fast reading is mandatory.</div>}
+                {tkPaceExam === "clat" && <div className="clay-body-text"><b>CLAT:</b> 120 Qs / 120 mins = <b style={{color:"var(--danger)", fontSize:16}}>60 seconds</b> per question (including reading long passages!).</div>}
+                {tkPaceExam === "cuet" && <div className="clay-body-text"><b>CUET (General):</b> 50 Qs / 60 mins = <b style={{color:"var(--danger)", fontSize:16}}>1m 12s</b> per question.</div>}
+              </ClayCard>
+
+              {/* Skip Strategy */}
+              <ClayCard>
+                <div className="flex items-center gap-2 mb-3 font-bold text-lg" style={{ color: "var(--ink)" }}><Scale size={18} style={{color:"var(--gold)"}}/> The "Skip Strategy" Math</div>
+                <p className="clay-body-text mb-2" style={{fontSize: 13}}>You don't need 100% to hit the 99th percentile. Knowing how much you can skip reduces negative marking.</p>
+                <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-300">
+                  <li><b>JEE Main:</b> ~190/300 marks for 99%ile. You can safely leave <b>~25 questions blank</b>.</li>
+                  <li><b>NEET:</b> ~650/720 marks for safe Govt Medical. You can only afford to skip/miss <b>~15 questions</b>.</li>
+                  <li><b>CLAT:</b> ~90/120 marks for top 3 NLUs. You can skip/miss <b>~30 questions</b>.</li>
+                </ul>
+              </ClayCard>
+
+              {/* Debt Calculator */}
+              <ClayCard>
+                <div className="flex items-center gap-2 mb-3 font-bold text-lg" style={{ color: "var(--ink)" }}><Landmark size={18} style={{color:"#7a3229"}}/> College Debt Calculator</div>
+                <div className="flex flex-col gap-3 mb-4">
+                  <div>
+                    <label className="clay-eyebrow">4-Year Tuition Fee (Lakhs): ₹{tkDebtT}L</label>
+                    <input type="range" min="0" max="40" value={tkDebtT} onChange={e=>setTkDebtT(Number(e.target.value))} className="w-full mt-1" />
+                  </div>
+                  <div>
+                    <label className="clay-eyebrow">4-Year Hostel/Living (Lakhs): ₹{tkDebtH}L</label>
+                    <input type="range" min="0" max="20" value={tkDebtH} onChange={e=>setTkDebtH(Number(e.target.value))} className="w-full mt-1" />
+                  </div>
+                </div>
+                <div className="p-3 rounded-xl" style={{background: "var(--danger-bg)"}}>
+                  <div className="clay-body-text" style={{color:"#7a3229", fontSize:13}}>Total Cost: <b>₹{tkDebtT + tkDebtH} Lakhs</b></div>
+                  <div className="clay-body-text" style={{color:"#7a3229", fontSize:12, marginTop:4}}><i>If taking an education loan at 10%, expect to pay ~₹{((tkDebtT+tkDebtH)*1.4).toFixed(1)}L over 7 years.</i></div>
+                </div>
+              </ClayCard>
+
+              {/* Exam Day Checklist */}
+              <ClayCard>
+                <div className="flex items-center gap-2 mb-3 font-bold text-lg" style={{ color: "var(--ink)" }}><ListChecks size={18} style={{color:"var(--com)"}}/> NTA/Exam Day Survival</div>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex gap-2">✅ Printed Admit Card (A4, clear)</li>
+                  <li className="flex gap-2">✅ 2 Passport size photos (same as form)</li>
+                  <li className="flex gap-2">✅ Original valid Photo ID (Aadhaar/PAN)</li>
+                  <li className="flex gap-2">✅ Transparent ballpoint pen</li>
+                  <li className="flex gap-2">✅ Transparent water bottle</li>
+                  <li className="flex gap-2" style={{color:"#7a3229"}}>❌ NO metal objects, rings, or belts</li>
+                  <li className="flex gap-2" style={{color:"#7a3229"}}>❌ NO thick-soled shoes</li>
+                </ul>
+              </ClayCard>
+            </div>
+
             <ClayCard className="mb-6">
               {starred.size > 0 ? (
                 <>
-                  <div className="clay-eyebrow mb-3" style={{ fontSize: 11 }}>Built from your starred exams</div>
+                  <div className="clay-eyebrow mb-3" style={{ fontSize: 11 }}>Registration Tracker (Session-only)</div>
                   <div className="space-y-2">
                     {[...starred, "Documents folder ready"].map((item) => (
                       <div key={item} className="flex items-center gap-3 cursor-pointer" onClick={() => toggleCheck(item)}>
@@ -1540,6 +1654,14 @@ export default function CareerAtlas() {
                 <Pill active={salaryOnlyStream} tone={stream} onClick={() => setSalaryOnlyStream(true)}>{meta.label} Only</Pill>
               </div>
             )}
+            
+            <div className="flex flex-wrap gap-4 mb-4 mt-2" style={{ fontSize: 13, fontWeight: 600 }}>
+              <div className="flex items-center gap-1.5"><div style={{ width: 12, height: 12, borderRadius: 4, background: "#8fb4e3" }}/> Science</div>
+              <div className="flex items-center gap-1.5"><div style={{ width: 12, height: 12, borderRadius: 4, background: "#9bc9a0" }}/> Commerce</div>
+              <div className="flex items-center gap-1.5"><div style={{ width: 12, height: 12, borderRadius: 4, background: "#e7a0ae" }}/> Arts</div>
+              <div className="flex items-center gap-1.5"><div style={{ width: 12, height: 12, borderRadius: 4, background: "#e8b86d" }}/> Open to All</div>
+            </div>
+
             <ClayCard style={{ padding: "28px 20px" }}>
               <ResponsiveContainer width="100%" height={Math.max(220, filteredSalary.length * 38)}>
                 <BarChart data={filteredSalary} layout="vertical" margin={{ left: 10, right: 30 }}>
