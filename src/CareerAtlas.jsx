@@ -89,13 +89,13 @@ const EXAMS = [
 ];
 
 const UNDERRATED = [
-  { name: "CUSAT CAT", where: "Cochin University of Science & Technology, Kochi", why: "Central-govt-aided university B.Tech at 20–30% of private college fees — almost nobody outside Kerala applies for it.", link: "cusat.ac.in" },
-  { name: "AMU Engineering Entrance", where: "Aligarh Muslim University", why: "A central-university B.Tech most students forget to apply for since it isn't via JEE or CUET.", link: "amucontrollerexams.com" },
-  { name: "AFMC (via NEET)", where: "Armed Forces Medical College, Pune", why: "Same NEET score, but leads to an MBBS plus guaranteed officer commission in the Armed Forces.", link: "afmc.nic.in" },
-  { name: "JIPMAT", where: "IIM Bodh Gaya / IIM Jammu / IIM Sirmaur", why: "Same IIM degree as IPMAT but the entrance is significantly less competitive — most Commerce students don't know IIM Bodh Gaya exists.", link: "jipmat.nta.nic.in" },
-  { name: "FTII / SRFTI", where: "Pune & Kolkata — Film & TV Institutes", why: "India's premier government film schools — genuinely tiny intake, almost never mentioned alongside standard career exams despite strong industry placement.", link: "ftii.ac.in" },
-  { name: "ACET (Actuarial Science)", where: "Institute of Actuaries of India", why: "One of the highest-ceiling Commerce-adjacent careers in India, and most Commerce students have never heard of it — needs strong Maths, not accounting.", link: "actuariesindia.org" },
-  { name: "JEXPO (WB Polytechnic)", where: "West Bengal Government Polytechnics", why: "A near-zero-cost route to the same B.Tech degree via lateral entry into 2nd year — genuinely underused as a fallback by WB students specifically.", link: "wbscte.co.in" },
+  { name: "CUSAT CAT", where: "Cochin University of Science & Technology, Kochi", why: "Central-govt-aided university B.Tech at 20–30% of private college fees — almost nobody outside Kerala applies for it.", link: "cusat.ac.in", streams: ["science"] },
+  { name: "AMU Engineering Entrance", where: "Aligarh Muslim University", why: "A central-university B.Tech most students forget to apply for since it isn't via JEE or CUET.", link: "amucontrollerexams.com", streams: ["science"] },
+  { name: "AFMC (via NEET)", where: "Armed Forces Medical College, Pune", why: "Same NEET score, but leads to an MBBS plus guaranteed officer commission in the Armed Forces.", link: "afmc.nic.in", streams: ["science"] },
+  { name: "JIPMAT", where: "IIM Bodh Gaya / IIM Jammu / IIM Sirmaur", why: "Same IIM degree as IPMAT but the entrance is significantly less competitive — most Commerce students don't know IIM Bodh Gaya exists.", link: "jipmat.nta.nic.in", streams: ["commerce", "arts"] },
+  { name: "FTII / SRFTI", where: "Pune & Kolkata — Film & TV Institutes", why: "India's premier government film schools — genuinely tiny intake, almost never mentioned alongside standard career exams despite strong industry placement.", link: "ftii.ac.in", streams: ["arts", "all"] },
+  { name: "ACET (Actuarial Science)", where: "Institute of Actuaries of India", why: "One of the highest-ceiling Commerce-adjacent careers in India, and most Commerce students have never heard of it — needs strong Maths, not accounting.", link: "actuariesindia.org", streams: ["commerce", "science"] },
+  { name: "JEXPO (WB Polytechnic)", where: "West Bengal Government Polytechnics", why: "A near-zero-cost route to the same B.Tech degree via lateral entry into 2nd year — genuinely underused as a fallback by WB students specifically.", link: "wbscte.co.in", streams: ["science"] },
 ];
 
 const SCHOLARSHIPS = [
