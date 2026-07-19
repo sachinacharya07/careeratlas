@@ -4,7 +4,7 @@ import {
   FlaskConical, CalendarDays, Info, ChevronDown, ExternalLink,
   Check, X, Sun, Moon, MapPin, Wallet, ListChecks, HelpCircle,
   ShieldAlert, Landmark, Gem, Wrench, BookOpen, HeartHandshake,
-  Star, Phone, AlertTriangle, FileText, Wind, Scale, Copy, RotateCcw,
+  Star, Phone, AlertTriangle, FileText, Wind, Scale, Copy, RotateCcw, ArrowUp, Menu,
 } from "lucide-react";
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
@@ -265,6 +265,7 @@ const PLAN_STEPS = [
 
 const TABS = [
   { id: "home", label: "Exams", icon: ListChecks },
+  { id: "advisor", label: "Smart Advisor", icon: Sparkles },
   { id: "compare", label: "Compare", icon: Scale },
   { id: "situation", label: "Situation", icon: Compass },
   { id: "calendar", label: "Calendar", icon: CalendarDays },
@@ -377,6 +378,21 @@ export default function CareerAtlas() {
   const [showOnboarding, setShowOnboarding] = useState(() => !(typeof window !== "undefined" && window.location.hash && window.location.hash.length > 1));
   const [feeCalcOpen, setFeeCalcOpen] = useState(false);
   const [urlCopied, setUrlCopied] = useState(false);
+  const [showTopBtn, setShowTopBtn] = useState(false);
+  
+  // Mobile Sidebar State
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  // Smart Advisor State
+  const [advisorStep, setAdvisorStep] = useState(0);
+  const [advisorData, setAdvisorData] = useState({ stream: "", maths: null, bio: null, budget: null, stage: null });
+
+  // Scroll to top listener
+  useEffect(() => {
+    const handleScroll = () => setShowTopBtn(window.scrollY > 400);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Persist dark mode
   useEffect(() => { try { localStorage.setItem("ca-dark", dark ? "1" : "0"); } catch {} }, [dark]);
@@ -563,6 +579,58 @@ export default function CareerAtlas() {
     [starredExams]
   );
 
+  // Smart Advisor Recommendation Engine
+  const advisorResults = useMemo(() => {
+    if (advisorStep !== 5 || !advisorData.stage) return null;
+    const { stream: advStream, maths, bio, budget, stage } = advisorData;
+    
+    // 1. Filter raw pool by stream & subjects
+    let pool = EXAMS.filter(e => e.stream === advStream || e.stream === "all");
+    if (advStream === "science") {
+      if (maths === false) pool = pool.filter(e => !e.reqMaths);
+      if (bio === false) pool = pool.filter(e => !e.reqBio);
+    } else {
+      if (maths === false) pool = pool.filter(e => !e.reqMaths);
+    }
+    
+    // 2. Budget constraint filter
+    if (budget === "low") {
+      const expensivePrivate = ["BITSAT", "VITEEE", "SRMJEEE", "Manipal MET", "KIITEE", "AEEE", "PESSAT", "IPMAT", "NPAT / SET", "LSAT India", "Pearl Academy Entrance", "Srishti Design Entrance", "COMEDK UGET"];
+      pool = pool.filter(e => !expensivePrivate.includes(e.name));
+    }
+    
+    let priority = [];
+    let backups = [];
+    
+    // 2. Logic by prep stage
+    if (stage === "aced") {
+      priority = pool.filter(e => e.difficulty === "Hard" || e.difficulty === "Moderate").slice(0, 3);
+      backups = pool.filter(e => e.difficulty === "Easy-Mod" || e.tag === "🛟").slice(0, 3);
+    } else if (stage === "average") {
+      priority = pool.filter(e => e.difficulty === "Moderate" && e.tag !== "🛟").slice(0, 3);
+      backups = pool.filter(e => e.difficulty === "Easy-Mod" || e.tag === "🛟").slice(0, 3);
+    } else if (stage === "lost") {
+      priority = pool.filter(e => e.difficulty === "Easy-Mod" || e.tag === "🛟").slice(0, 3);
+      backups = pool.filter(e => e.difficulty === "Easy-Mod").slice(0, 3);
+    } else if (stage === "drop") {
+      priority = pool.filter(e => e.difficulty === "Hard" || e.difficulty === "Moderate").slice(0, 3);
+      backups = pool.filter(e => e.difficulty === "Moderate" || e.tag === "🛟").slice(0, 3);
+    }
+    
+    // Fallbacks if arrays are empty
+    if (priority.length === 0) priority = pool.slice(0, 3);
+    if (backups.length === 0) backups = pool.filter(e => !priority.includes(e)).slice(0, 3);
+    
+    // Action step from SITUATIONS
+    let actionStr = "";
+    if (stage === "aced") actionStr = SITUATIONS[3].steps[0];
+    else if (stage === "average") actionStr = SITUATIONS[0].steps[1];
+    else if (stage === "lost") actionStr = SITUATIONS[2].steps[0];
+    else if (stage === "drop") actionStr = SITUATIONS[4].steps[0];
+
+    return { priority, backups, actionStr };
+  }, [advisorStep, advisorData]);
+
   const prepList = FREE_PREP[stream] || FREE_PREP.all;
   const meta = STREAM_META[stream];
 
@@ -690,6 +758,67 @@ export default function CareerAtlas() {
           .clay-node { font-size: 11.5px; padding: 8px 12px; }
         }
 
+        /* Sidebar layout for mobile */
+        .mobile-menu-btn { display: none; }
+        .clay-sidebar-overlay { display: none; }
+        .clay-sidebar { display: none; }
+        
+        @media (max-width: 768px) {
+          .clay-navrow { display: none; }
+          .mobile-menu-btn { display: inline-flex; }
+          
+          .clay-sidebar-overlay {
+            display: block; position: fixed; inset: 0; z-index: 999;
+            background: rgba(30,25,45,.4); backdrop-filter: blur(8px);
+            opacity: 0; pointer-events: none; transition: opacity .35s ease;
+          }
+          .clay-sidebar-overlay.open { opacity: 1; pointer-events: auto; }
+          
+          .clay-sidebar {
+            display: flex; flex-direction: column; gap: 8px;
+            position: fixed; top: 0; left: 0; bottom: 0; width: 290px;
+            background: var(--card); z-index: 1000;
+            padding: 35px 24px; overflow-y: auto;
+            border-right: 1px solid rgba(255,255,255,.6);
+            border-top-right-radius: 35px; border-bottom-right-radius: 35px;
+            box-shadow: 15px 0 35px rgba(120,105,160,.15), inset -2px 0 5px rgba(255,255,255,.5);
+            transform: translateX(-100%); transition: transform .45s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          .clay-root.dark .clay-sidebar { border-color: rgba(255,255,255,.05); box-shadow: 15px 0 35px rgba(0,0,0,.4); }
+          .clay-sidebar.open { transform: translateX(0); }
+          
+          .clay-sidebar .clay-pill { 
+            width: 100%; justify-content: flex-start; padding: 14px 18px; font-size: 15px; 
+            background: transparent; box-shadow: none; border: 1px solid transparent;
+            opacity: 0; transform: translateX(-15px); transition: all .25s ease;
+          }
+          .clay-sidebar.open .clay-pill { opacity: 1; transform: translateX(0); }
+          
+          /* Stagger animations for children */
+          .clay-sidebar.open .clay-pill:nth-child(2) { transition-delay: .05s; }
+          .clay-sidebar.open .clay-pill:nth-child(3) { transition-delay: .10s; }
+          .clay-sidebar.open .clay-pill:nth-child(4) { transition-delay: .15s; }
+          .clay-sidebar.open .clay-pill:nth-child(5) { transition-delay: .20s; }
+          .clay-sidebar.open .clay-pill:nth-child(6) { transition-delay: .25s; }
+          .clay-sidebar.open .clay-pill:nth-child(7) { transition-delay: .30s; }
+          .clay-sidebar.open .clay-pill:nth-child(8) { transition-delay: .35s; }
+          .clay-sidebar.open .clay-pill:nth-child(9) { transition-delay: .40s; }
+          .clay-sidebar.open .clay-pill:nth-child(10) { transition-delay: .45s; }
+          .clay-sidebar.open .clay-pill:nth-child(11) { transition-delay: .50s; }
+          .clay-sidebar.open .clay-pill:nth-child(12) { transition-delay: .55s; }
+          .clay-sidebar.open .clay-pill:nth-child(13) { transition-delay: .60s; }
+          .clay-sidebar.open .clay-pill:nth-child(14) { transition-delay: .65s; }
+          .clay-sidebar.open .clay-pill:nth-child(15) { transition-delay: .70s; }
+          .clay-sidebar.open .clay-pill:nth-child(16) { transition-delay: .75s; }
+          .clay-sidebar.open .clay-pill:nth-child(17) { transition-delay: .80s; }
+          
+          .clay-sidebar .clay-pill.clay-pill-active {
+            background: var(--card); color: var(--ink);
+            box-shadow: inset 4px 4px 8px rgba(120,90,20,.15), inset -4px -4px 8px rgba(255,255,255,.5);
+            border: 1px solid rgba(255,255,255,.4);
+          }
+        }
+
         .clay-overlay {
           position: fixed; inset: 0; z-index: 200;
           background: rgba(30,25,45,.55);
@@ -726,8 +855,13 @@ export default function CareerAtlas() {
 
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-6 gap-2">
-          <div className="clay-node clay-header-badge" style={{ background: "var(--card)" }}>
-            <Sparkles size={14} /> Career Atlas<span className="badge-suffix"> · Class 12, All Streams</span>
+          <div className="flex items-center gap-2">
+            <button className="clay-btn-icon mobile-menu-btn" onClick={() => setIsSidebarOpen(true)}>
+              <Menu size={18} />
+            </button>
+            <div className="clay-node clay-header-badge" style={{ background: "var(--card)" }}>
+              <Sparkles size={14} /> Career Atlas<span className="badge-suffix"> · Class 12, All Streams</span>
+            </div>
           </div>
           <div className="flex gap-2 flex-wrap justify-end">
             {starred.size > 0 && (
@@ -829,6 +963,21 @@ export default function CareerAtlas() {
           </div>
         </ClayCard>
 
+        <div className={`clay-sidebar-overlay ${isSidebarOpen ? "open" : ""}`} onClick={() => setIsSidebarOpen(false)} />
+        <div className={`clay-sidebar ${isSidebarOpen ? "open" : ""}`}>
+          <div className="flex items-center justify-between mb-6">
+            <span className="clay-h2" style={{ fontSize: 20 }}>Menu</span>
+            <button className="clay-btn-icon" style={{ width: 32, height: 32 }} onClick={() => setIsSidebarOpen(false)}>
+              <X size={16} />
+            </button>
+          </div>
+          {TABS.map((t) => (
+            <Pill key={t.id} active={tab === t.id} icon={t.icon} onClick={() => { setTab(t.id); setIsSidebarOpen(false); }}>
+              {t.label}
+            </Pill>
+          ))}
+        </div>
+
         <div className="clay-navrow">
           {TABS.map((t) => <Pill key={t.id} active={tab === t.id} icon={t.icon} onClick={() => setTab(t.id)}>{t.label}</Pill>)}
         </div>
@@ -906,6 +1055,159 @@ export default function CareerAtlas() {
               )}
             </div>
             <p className="clay-body-text mt-4" style={{ fontSize: 11.5, textAlign: "center" }}>Dates and links are indicative for the 2027 cycle — always confirm on the official site before applying.</p>
+          </div>
+        )}
+
+        {/* ── SMART ADVISOR ── */}
+        {tab === "advisor" && (
+          <div key="advisor" className="clay-pop">
+            <SectionHead eyebrow="Personalized Guide" title="Smart Advisor" body="Answer 3 questions to get a realistic, actionable exam strategy tailored to your situation." />
+            
+            {advisorStep === 0 && (
+              <ClayCard className="text-center" style={{ padding: "40px 20px" }}>
+                <Sparkles size={34} style={{ color: "var(--gold)", margin: "0 auto 16px" }} />
+                <div className="clay-h2 mb-3">Let's build your strategy</div>
+                <p className="clay-body-text mb-6 mx-auto" style={{ maxWidth: 400 }}>We'll look at your subjects and current prep level to recommend exactly what you should target — and what your backup should be.</p>
+                <button className="clay-pill" style={{ background: "var(--gold)", color: "#4a3418", padding: "14px 28px", fontSize: 16 }} onClick={() => setAdvisorStep(1)}>
+                  Start Questionnaire
+                </button>
+              </ClayCard>
+            )}
+
+            {advisorStep === 1 && (
+              <ClayCard>
+                <div className="clay-h2 mb-4">1. What's your stream?</div>
+                <div className="flex flex-col gap-3">
+                  {Object.entries(STREAM_META).filter(([id]) => id !== "all").map(([id, m]) => {
+                    const Icon = m.icon;
+                    return (
+                      <button key={id} className="clay-pill justify-start" style={{ padding: "16px", background: "var(--card)", border: "1px solid rgba(120,105,160,.2)" }} onClick={() => { setAdvisorData(p => ({ ...p, stream: id })); setAdvisorStep(2); }}>
+                        <Icon size={18} style={{ marginRight: 8 }} /> {m.label}
+                      </button>
+                    )
+                  })}
+                </div>
+              </ClayCard>
+            )}
+
+            {advisorStep === 2 && (
+              <ClayCard>
+                <div className="clay-h2 mb-4">2. Did you opt for Maths?</div>
+                <div className="flex gap-3">
+                  <button className="clay-pill flex-1 justify-center" style={{ padding: "16px", background: "var(--card)", border: "1px solid rgba(120,105,160,.2)" }} onClick={() => {
+                    setAdvisorData(p => ({ ...p, maths: true }));
+                    if (advisorData.stream === "science") setAdvisorStep(3);
+                    else setAdvisorStep(4);
+                  }}>Yes</button>
+                  <button className="clay-pill flex-1 justify-center" style={{ padding: "16px", background: "var(--card)", border: "1px solid rgba(120,105,160,.2)" }} onClick={() => {
+                    setAdvisorData(p => ({ ...p, maths: false }));
+                    if (advisorData.stream === "science") setAdvisorStep(3);
+                    else setAdvisorStep(4);
+                  }}>No</button>
+                </div>
+              </ClayCard>
+            )}
+
+            {advisorStep === 3 && (
+              <ClayCard>
+                <div className="clay-h2 mb-4">3. Did you opt for Biology?</div>
+                <div className="flex gap-3">
+                  <button className="clay-pill flex-1 justify-center" style={{ padding: "16px", background: "var(--card)", border: "1px solid rgba(120,105,160,.2)" }} onClick={() => { setAdvisorData(p => ({ ...p, bio: true })); setAdvisorStep(4); }}>Yes</button>
+                  <button className="clay-pill flex-1 justify-center" style={{ padding: "16px", background: "var(--card)", border: "1px solid rgba(120,105,160,.2)" }} onClick={() => { setAdvisorData(p => ({ ...p, bio: false })); setAdvisorStep(4); }}>No</button>
+                </div>
+              </ClayCard>
+            )}
+
+            {advisorStep === 4 && (
+              <ClayCard>
+                <div className="clay-h2 mb-2">4. Are high private college fees (₹15L+) an option?</div>
+                <p className="clay-body-text mb-4">If you select No, we will filter out expensive private entrances and prioritize government/low-fee options like CUET and State CETs.</p>
+                <div className="flex flex-col gap-3">
+                  <button className="clay-pill justify-start" style={{ padding: "16px", background: "var(--card)", border: "1px solid rgba(120,105,160,.2)" }} onClick={() => {
+                    setAdvisorData(p => ({ ...p, budget: "high" }));
+                    setAdvisorStep(5);
+                  }}>✅ Yes, we can manage it for a top college.</button>
+                  <button className="clay-pill justify-start" style={{ padding: "16px", background: "var(--card)", border: "1px solid rgba(120,105,160,.2)" }} onClick={() => {
+                    setAdvisorData(p => ({ ...p, budget: "low" }));
+                    setAdvisorStep(5);
+                  }}>⛔ No, I strictly need govt colleges, low-fee options, or heavy scholarships.</button>
+                </div>
+              </ClayCard>
+            )}
+
+            {advisorStep === 5 && !advisorData.stage && (
+              <ClayCard>
+                <div className="clay-h2 mb-4">Final Check: Reality of Prep</div>
+                <p className="clay-body-text mb-4">Be honest here. It helps us find realistic backups.</p>
+                <div className="flex flex-col gap-3">
+                  <button className="clay-pill justify-start" style={{ padding: "16px", textAlign: "left", background: "var(--card)", border: "1px solid rgba(120,105,160,.2)" }} onClick={() => setAdvisorData(p => ({ ...p, stage: "aced" }))}>
+                    🏆 Aced Class 11 & 12 (Targeting top ranks)
+                  </button>
+                  <button className="clay-pill justify-start" style={{ padding: "16px", textAlign: "left", background: "var(--card)", border: "1px solid rgba(120,105,160,.2)" }} onClick={() => setAdvisorData(p => ({ ...p, stage: "average" }))}>
+                    ⏳ Average prep (Mostly focused on passing Boards well)
+                  </button>
+                  <button className="clay-pill justify-start" style={{ padding: "16px", textAlign: "left", background: "var(--card)", border: "1px solid rgba(120,105,160,.2)" }} onClick={() => setAdvisorData(p => ({ ...p, stage: "lost" }))}>
+                    🚨 Lost most of 11/12 (Barely started, need safe options)
+                  </button>
+                  <button className="clay-pill justify-start" style={{ padding: "16px", textAlign: "left", background: "var(--card)", border: "1px solid rgba(120,105,160,.2)" }} onClick={() => setAdvisorData(p => ({ ...p, stage: "drop" }))}>
+                    🔄 Repeater / Gap Year
+                  </button>
+                </div>
+              </ClayCard>
+            )}
+
+            {advisorStep === 5 && advisorData.stage && advisorResults && (
+              <div className="space-y-6 clay-pop">
+                <ClayCard style={{ background: "var(--gold-bg)", border: "2px solid var(--gold)" }}>
+                  <div className="flex items-center gap-2 mb-2" style={{ color: "#4a3418", fontWeight: 700 }}>
+                    <Compass size={18} /> Immediate Action Step
+                  </div>
+                  <p className="clay-body-text" style={{ fontSize: 16, fontWeight: 600, color: "var(--ink)" }}>{advisorResults.actionStr}</p>
+                </ClayCard>
+
+                <div>
+                  <h3 className="clay-h2 mb-3">Priority Targets (Reach)</h3>
+                  <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))" }}>
+                    {advisorResults.priority.map(e => (
+                      <ClayCard key={e.name} style={{ padding: "16px" }}>
+                        <div className="flex justify-between items-start mb-1">
+                          <span style={{ fontWeight: 700 }}>{e.name}</span>
+                          <button onClick={() => toggleStar(e.name)}>
+                            <Star size={16} fill={starred.has(e.name) ? "var(--gold)" : "none"} color={starred.has(e.name) ? "var(--gold)" : "var(--muted)"} />
+                          </button>
+                        </div>
+                        <p className="clay-body-text text-sm mb-2">{e.gets}</p>
+                        <Chip bg="var(--danger-bg)" color="#7a3229">{e.difficulty}</Chip>
+                      </ClayCard>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="clay-h2 mb-3">Safety Nets (Must Register)</h3>
+                  <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))" }}>
+                    {advisorResults.backups.map(e => (
+                      <ClayCard key={e.name} style={{ padding: "16px" }}>
+                        <div className="flex justify-between items-start mb-1">
+                          <span style={{ fontWeight: 700 }}>{e.name}</span>
+                          <button onClick={() => toggleStar(e.name)}>
+                            <Star size={16} fill={starred.has(e.name) ? "var(--gold)" : "none"} color={starred.has(e.name) ? "var(--gold)" : "var(--muted)"} />
+                          </button>
+                        </div>
+                        <p className="clay-body-text text-sm mb-2">{e.gets}</p>
+                        <Chip bg="var(--com-bg)" color="#1d3a22">{e.difficulty}</Chip>
+                      </ClayCard>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="text-center mt-6">
+                  <button className="clay-body-text" style={{ background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontSize: 13 }} onClick={() => { setAdvisorStep(0); setAdvisorData({ stream: "", maths: null, bio: null, budget: null, stage: null }); }}>
+                    Retake Questionnaire
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -1155,7 +1457,23 @@ export default function CareerAtlas() {
               {prepList.map((p) => (
                 <ClayCard key={p.subj}>
                   <div className="clay-h2 mb-2" style={{ fontSize: 16 }}>{p.subj}</div>
-                  <p className="clay-body-text mb-2"><b style={{ color: "var(--ink)" }}>Free channels: </b>{p.ch}</p>
+                  <div className="clay-body-text mb-2">
+                    <b style={{ color: "var(--ink)" }}>Free channels: </b>
+                    {p.ch.split(',').map((channel, idx, arr) => (
+                      <React.Fragment key={channel}>
+                        <a 
+                          href={`https://www.youtube.com/results?search_query=${encodeURIComponent(channel.trim() + " " + p.subj)}`}
+                          target="_blank" 
+                          rel="noreferrer"
+                          className="clay-link"
+                          style={{ textDecoration: 'underline', color: 'var(--sci)' }}
+                        >
+                          {channel.trim()}
+                        </a>
+                        {idx < arr.length - 1 ? ", " : ""}
+                      </React.Fragment>
+                    ))}
+                  </div>
                   <p className="clay-body-text"><b style={{ color: "var(--ink)" }}>Books: </b>{p.bk}</p>
                 </ClayCard>
               ))}
@@ -1251,7 +1569,7 @@ export default function CareerAtlas() {
         )}
 
         <div className="text-center mt-16" style={{ paddingBottom: 10 }}>
-          <div style={{ fontSize: 42, lineHeight: 1, marginBottom: 10, display: "inline-block", animation: "heartbeat 1.8s ease-in-out infinite" }}>❤️</div>
+          <div style={{ fontSize: 42, lineHeight: 1, marginBottom: 10, display: "inline-block" }}>❤️</div>
           <div style={{ fontFamily: "'Baloo 2', sans-serif", fontSize: 34, fontWeight: 800, color: "var(--ink)", letterSpacing: "-.01em", marginBottom: 6 }}>
             Made by <span style={{ color: "var(--gold)" }}>Sachin</span>
           </div>
@@ -1261,6 +1579,18 @@ export default function CareerAtlas() {
           </div>
         </div>
       </div>
+      
+      {/* ── SCROLL TO TOP ── */}
+      {showTopBtn && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="clay-pop clay-btn-icon"
+          title="Scroll to top"
+          style={{ position: "fixed", bottom: 24, right: 24, zIndex: 100, width: 46, height: 46, borderRadius: 23, background: "var(--card)", boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}
+        >
+          <ArrowUp size={22} style={{ color: "var(--ink)" }} />
+        </button>
+      )}
     </div>
   );
 }
