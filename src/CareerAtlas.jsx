@@ -4,11 +4,12 @@ import {
   FlaskConical, CalendarDays, Info, ChevronDown, ExternalLink,
   Check, X, Sun, Moon, MapPin, Wallet, ListChecks, HelpCircle,
   ShieldAlert, Landmark, Gem, Wrench, BookOpen, HeartHandshake,
-  Star, Phone, AlertTriangle, FileText, Wind, Scale, Copy, RotateCcw, ArrowUp, Menu,
+  Star, Phone, AlertTriangle, FileText, Wind, Scale, Copy, RotateCcw, ArrowUp, Menu, Shuffle, GitMerge
 } from "lucide-react";
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ScatterChart, Scatter, ZAxis
 } from "recharts";
+import { motion, AnimatePresence } from "framer-motion";
 
 /* ────────────────────────────────────────────────────────────
    DESIGN TOKENS — claymorphism
@@ -88,8 +89,6 @@ const EXAMS = [
 ];
 
 const UNDERRATED = [
-  { name: "ISI Admission Test", where: "Indian Statistical Institute, Kolkata", why: "India's top Maths/Stats institute — tiny applicant pool vs JEE/NEET, low fees, runs its own quiet entrance.", link: "admission.isical.ac.in" },
-  { name: "CMI Entrance", where: "Chennai Mathematical Institute", why: "Elite, research-mentored, almost unknown outside Olympiad circles. Strong Olympiad rank can waive the test.", link: "cmi.ac.in" },
   { name: "CUSAT CAT", where: "Cochin University of Science & Technology, Kochi", why: "Central-govt-aided university B.Tech at 20–30% of private college fees — almost nobody outside Kerala applies for it.", link: "cusat.ac.in" },
   { name: "AMU Engineering Entrance", where: "Aligarh Muslim University", why: "A central-university B.Tech most students forget to apply for since it isn't via JEE or CUET.", link: "amucontrollerexams.com" },
   { name: "AFMC (via NEET)", where: "Armed Forces Medical College, Pune", why: "Same NEET score, but leads to an MBBS plus guaranteed officer commission in the Armed Forces.", link: "afmc.nic.in" },
@@ -100,16 +99,24 @@ const UNDERRATED = [
 ];
 
 const SCHOLARSHIPS = [
-  { name: "MEXT", region: "Japan", note: "Free application. Full tuition + stipend + airfare." },
-  { name: "Global Korea Scholarship", region: "South Korea", note: "Free application. Tuition + stipend + a free Korean-language year." },
-  { name: "Türkiye Scholarships", region: "Turkey", note: "Free application. Among the most accessible fully-funded programmes." },
-  { name: "Chinese Govt Scholarship (CSC)", region: "China", note: "Near-free application. Tuition + accommodation + stipend." },
-  { name: "Central Sector Scheme", region: "India-wide", note: "Free, via National Scholarship Portal. Merit + income based, renewable." },
-  { name: "SVMCM", region: "West Bengal", note: "Free. WB's own scholarship, Class 11 through PG." },
-  { name: "National Overseas Scholarship", region: "India (SC/ST/notified)", note: "Free. Govt of India fully funds study abroad, income-capped." },
-  { name: "PM YASASVI", region: "India-wide (OBC/EBC/DNT)", note: "Free, via NSP. Top-class school scholarship covering Classes 9 & 11 — feeds directly into board preparation support." },
-  { name: "Ishan Uday", region: "North-East India", note: "Free. UGC scholarship for NE students joining central or state universities outside their home state." },
-  { name: "Post-Matric SC/ST Scholarship", region: "India-wide", note: "Free. State + central govt funds tuition + maintenance allowance for SC/ST students at any recognised college." },
+  { name: "KVPY / INSPIRE", region: "Science/Research", note: "Govt-funded stipends for pure science (B.Sc/M.Sc) through IISERs/NISERs.", streams: ["science"] },
+  { name: "MEXT", region: "Japan", note: "Free application. Full tuition + stipend + airfare.", streams: ["all", "science", "commerce", "arts"] },
+  { name: "Global Korea Scholarship", region: "South Korea", note: "Free application. Tuition + stipend + a free Korean-language year.", streams: ["all", "science", "commerce", "arts"] },
+  { name: "Türkiye Scholarships", region: "Turkey", note: "Free application. Among the most accessible fully-funded programmes.", streams: ["all", "science", "commerce", "arts"] },
+  { name: "Chinese Govt Scholarship (CSC)", region: "China", note: "Near-free application. Tuition + accommodation + stipend.", streams: ["all", "science", "commerce", "arts"] },
+  { name: "Central Sector Scheme", region: "India-wide", note: "Free, via National Scholarship Portal. Merit + income based, renewable.", streams: ["all", "science", "commerce", "arts"] },
+  { name: "SVMCM", region: "West Bengal", note: "Free. WB's own scholarship, Class 11 through PG.", streams: ["all", "science", "commerce", "arts"] },
+  { name: "National Overseas Scholarship", region: "India (SC/ST/notified)", note: "Free. Govt of India fully funds study abroad, income-capped.", streams: ["all", "science", "commerce", "arts"] },
+  { name: "PM YASASVI", region: "India-wide (OBC/EBC/DNT)", note: "Free, via NSP. Top-class school scholarship covering Classes 9 & 11 — feeds directly into board preparation support.", streams: ["all", "science", "commerce", "arts"] },
+  { name: "Ishan Uday", region: "North-East India", note: "Free. UGC scholarship for NE students joining central or state universities outside their home state.", streams: ["all", "science", "commerce", "arts"] },
+  { name: "Post-Matric SC/ST Scholarship", region: "India-wide", note: "Free. State + central govt funds tuition + maintenance allowance for SC/ST students at any recognised college.", streams: ["all", "science", "commerce", "arts"] },
+];
+
+const LOANS = [
+  { name: "Vidyalakshmi Portal", type: "Government", note: "Centralized govt portal applying to multiple banks at once. Highly subsidized interest rates for lower-income brackets.", streams: ["all", "science", "commerce", "arts"] },
+  { name: "SBI Scholar Loan", type: "Bank (Premium)", note: "Collateral-free loans up to ₹40 Lakhs if you crack a Tier-1 college (IITs, IIMs, top NITs, NLUs).", streams: ["all", "science", "commerce", "arts"] },
+  { name: "NBFCs (Avanse, HDFC Credila)", type: "Private", note: "Higher interest rates but much faster processing and flexible collateral requirements. Often used for studying abroad.", streams: ["all", "science", "commerce", "arts"] },
+  { name: "State Govt Credit Cards", type: "State Govt", note: "Schemes like Bihar Student Credit Card or WB Student Credit Card offer up to ₹4-10 Lakhs at nominal ~4% interest.", streams: ["all", "science", "commerce", "arts"] }
 ];
 
 const MONTH_ORDER = ["Dec 2026", "Jan 2027", "Feb 2027", "Mar 2027", "Apr 2027", "May 2027", "Jun 2027", "Jul 2027", "Aug 2027", "Dec 2027"];
@@ -148,15 +155,15 @@ const GLOSSARY = [
 const DOCS = ["Class 10 & 12 mark sheets + admit cards", "Aadhaar card", "Category certificate (SC/ST/OBC-NCL/EWS)", "Income certificate", "Domicile (State) certificate", "Medical Fitness Certificate (Standard format)", "Gap Certificate (Affidavit) if dropping a year", "Passport photos + signature scans", "Bank account in your own name", "Cancelled cheque of parents (for fee refunds)"];
 
 const RED_FLAGS = [
-  "Management-quota seats sold outside official counselling",
-  "Deemed universities calling themselves \"NIT/IIT-affiliated\"",
-  "\"100% rank guarantee\" coaching ads",
-  "Pressure to pay non-refundable seat-blocking fees in 24 hrs",
-  "Colleges without valid AICTE/UGC/NMC approval for that year",
-  "Scholarship \"consultants\" charging large upfront fees",
-  "Websites with '.edu.in' domains mimicking official portals — always type URLs manually, never click email links",
-  "Coaching institutes claiming their 'exclusive material' is the only way to clear any exam — NCERT + previous papers is almost always enough to start",
-  "Offers of guaranteed NRI or management quota seats through WhatsApp or Instagram — no legitimate seat works that way",
+  { text: "Management-quota seats sold outside official counselling", streams: ["all", "science", "commerce", "arts"] },
+  { text: "Deemed universities calling themselves \"NIT/IIT-affiliated\"", streams: ["science"] },
+  { text: "\"100% rank guarantee\" coaching ads", streams: ["all", "science", "commerce", "arts"] },
+  { text: "Pressure to pay non-refundable seat-blocking fees in 24 hrs", streams: ["all", "science", "commerce", "arts"] },
+  { text: "Colleges without valid AICTE/UGC/NMC approval for that year", streams: ["science"] },
+  { text: "Scholarship \"consultants\" charging large upfront fees", streams: ["all", "science", "commerce", "arts"] },
+  { text: "Websites with '.edu.in' domains mimicking official portals — always type URLs manually, never click email links", streams: ["all", "science", "commerce", "arts"] },
+  { text: "Coaching institutes claiming their 'exclusive material' is the only way to clear any exam — NCERT + previous papers is almost always enough to start", streams: ["all", "science", "commerce", "arts"] },
+  { text: "Offers of guaranteed NRI or management quota seats through WhatsApp or Instagram — no legitimate seat works that way", streams: ["all", "science", "commerce", "arts"] },
 ];
 
 const FALLBACKS = [
@@ -188,34 +195,34 @@ const FREE_PREP = {
 };
 
 const SITUATIONS = [
-  { icon: "⏳", title: "Lost half of Class 12", who: "A few months went to distraction or a rough patch — boards feel closer than they should.", steps: ["Triage every untouched chapter, ranked by board weightage", "Board syllabus first — it's 70–80% of most entrance prep anyway", "Scale ambitions this cycle: safest option becomes the real target"] },
-  { icon: "🌀", title: "Lost all of Class 11", who: "Class 11 barely happened. Class 12 now carries two years of ground.", steps: ["Rebuild Class 11 in parallel, chapter by chapter — don't skip it", "Look for a combined foundation + 12th batch instead of solo effort", "Boards first this cycle; keep a drop year genuinely on the table"] },
-  { icon: "🚨", title: "Lost all of Class 12", who: "Boards are close and the syllabus is untouched. Tightest spot here — still recoverable.", steps: ["Emergency mode: pass boards respectably, nothing else yet", "Don't chase full entrance syllabus in the weeks left", "Decide on a drop year now, not after results — saves months"] },
-  { icon: "🏆", title: "Aced Class 11 & 12", who: "Strong, consistent fundamentals — the question is how to convert that.", steps: ["Shift to mock-test volume, timing, and error analysis", "Consider the Olympiad circuit for a genuine edge", "Aim wide: your stream's top-tier options overlap in prep"] },
-  { icon: "🔄", title: "Repeater / Gap Year", who: "Already sat one cycle. Score didn't convert. Now with a full year ahead.", steps: ["Cold-start with a mock test today — know your real baseline, not your memory of it", "Identify the 2–3 root causes the last attempt didn't work; address those specifically", "Weekly targets, not just an exam date — the gap year is the plan itself"] },
+  { icon: "⏳", title: "Lost half of Class 12", who: "A few months went to distraction or a rough patch — boards feel closer than they should.", steps: ["Triage every untouched chapter, ranked by board weightage", "Board syllabus first — it's 70–80% of most entrance prep anyway", "Scale ambitions this cycle: safest option becomes the real target"], streams: ["all", "science", "commerce", "arts"] },
+  { icon: "🌀", title: "Lost all of Class 11", who: "Class 11 barely happened. Class 12 now carries two years of ground.", steps: ["Rebuild Class 11 in parallel, chapter by chapter — don't skip it", "Look for a combined foundation + 12th batch instead of solo effort", "Boards first this cycle; keep a drop year genuinely on the table"], streams: ["all", "science", "commerce", "arts"] },
+  { icon: "🚨", title: "Lost all of Class 12", who: "Boards are close and the syllabus is untouched. Tightest spot here — still recoverable.", steps: ["Emergency mode: pass boards respectably, nothing else yet", "Don't chase full entrance syllabus in the weeks left", "Decide on a drop year now, not after results — saves months"], streams: ["all", "science", "commerce", "arts"] },
+  { icon: "🏆", title: "Aced Class 11 & 12", who: "Strong, consistent fundamentals — the question is how to convert that.", steps: ["Shift to mock-test volume, timing, and error analysis", "Consider the Olympiad circuit for a genuine edge", "Aim wide: your stream's top-tier options overlap in prep"], streams: ["all", "science", "commerce", "arts"] },
+  { icon: "🔄", title: "Repeater / Gap Year", who: "Already sat one cycle. Score didn't convert. Now with a full year ahead.", steps: ["Cold-start with a mock test today — know your real baseline, not your memory of it", "Identify the 2–3 root causes the last attempt didn't work; address those specifically", "Weekly targets, not just an exam date — the gap year is the plan itself"], streams: ["all", "science", "commerce", "arts"] },
 ];
 
 const DROP_PROS = ["10–12 undivided months, zero board distractions", "Time for 4 revision cycles instead of 1", "You already know real exam pressure & timing", "Documented score jumps for a structured plan"];
 const DROP_CONS = ["A full year later into college than your batch", "Real cost — coaching/living for another year", "No guaranteed improvement without a new approach", "Genuine isolation & psychological pressure"];
 
 const FAQS = [
-  { q: "Does a drop year reduce my JEE Main attempts?", a: "Yes — JEE Main's window is 3 consecutive years from your Class 12 passing year, whether you attempt or not. A drop year quietly uses up one of those years." },
-  { q: "Can I sit JEE and NEET the same year?", a: "Yes, no restriction — different exam dates, and PCMB prep overlaps heavily across both anyway." },
-  { q: "Do CA / CS / CMA cap the number of attempts?", a: "No — unlike JEE Main, ICAI/ICSI/ICMAI don't cap attempts. You can re-sit a paper across sessions until you clear it." },
-  { q: "Does CUET or CLAT have a JEE-style attempt limit?", a: "No — both are open to any Class-12-passed candidate within each year's own eligibility rules, far less restrictive than JEE Main." },
-  { q: "What happens if I miss a JoSAA round?", a: "If you're just not allotted a seat, you stay in the pool automatically. If you ARE allotted and don't respond by the deadline, your candidature can be cancelled — always check your login after each round." },
-  { q: "Do I need 75% in boards even with a good JEE rank?", a: "Yes — NIT/IIIT/CFTI admission separately requires 75% aggregate in boards (or top 20 percentile), 65% for SC/ST/PwD, regardless of your JEE score." },
-  { q: "Is there an age limit for JEE Main or NEET?", a: "Neither currently enforces an upper age limit, following legal rulings. NEET UG does require a minimum age of 17 by December 31 of the admission year." },
-  { q: "Does NEET test Maths at all?", a: "No — NEET is Physics, Chemistry and Biology only. PCB students (no Maths) are fully eligible with no disadvantage on this specific exam." },
-  { q: "Can a Commerce or Arts student still try Science exams later?", a: "Generally no for Maths/PCM-locked exams like JEE Main — but CUET, CLAT, IPMAT and NDA (Army wing) stay open across streams, so cross-stream pivots are still possible through those." },
-  { q: "Can I switch from B.Com into law or CA later on?", a: "Yes — CLAT/AILET are open to any stream and any year of graduation isn't required for the 5-year integrated route straight after 12th. CA Foundation is also open to any stream right after 12th, so neither path requires you to have started Commerce with that specific plan." },
-  { q: "Does a design portfolio matter for NID even with a good DAT score?", a: "Yes — DAT Prelims is a screening MCQ round, but the Studio Test and later interview weigh creative/portfolio work heavily. A high Prelims score gets you to the next round, it doesn't guarantee admission on its own." },
-  { q: "Is ACET (Actuarial Science) worth it if I'm not sure about a Maths-heavy career?", a: "It's a genuinely narrow, demanding path — strong Maths/Stats fundamentals are non-negotiable, and the real qualification comes from clearing multiple professional exams after ACET, not the entrance itself. Worth it only if you enjoy quantitative problem-solving specifically, not as a generic backup." },
-  { q: "Can I appear for JEE Advanced without sitting JEE Main?", a: "No — JEE Advanced requires you to be in the top 2.5 lakh of JEE Main Paper 1 qualifiers in the same year. You cannot attempt Advanced directly without qualifying Main first." },
-  { q: "What is the difference between IPMAT and JIPMAT?", a: "IPMAT (IIM Indore's own test) gives access to IIM Indore and IIM Rohtak's 5-year Integrated Programme. JIPMAT (conducted by NTA) gives access to IIM Bodh Gaya, IIM Jammu, and IIM Sirmaur — less competitive, same IIM degree." },
-  { q: "Do state law exams (MHCET Law, KLEE, LAWCET) conflict with CLAT dates?", a: "Usually not — state law exams are scheduled independently of CLAT, so you can appear for all of them in the same cycle. Always check official calendars once notifications drop." },
-  { q: "Is a gap year treated differently for NEET compared to JEE Main?", a: "For NEET there's currently no attempt cap (as of 2027 cycle). For JEE Main, the window is 3 consecutive years from your Class 12 passing year — a gap year uses one of those years whether you attempt or not. NEET gives you more flexibility on this specific point." },
-  { q: "What does 'no negative marking' actually mean in practice for exams like VITEEE?", a: "It means you should attempt every single question — leaving a question blank has the same result as getting it wrong. This fundamentally changes exam strategy: speed and coverage beat selective caution." },
+  { q: "Does a drop year reduce my JEE Main attempts?", a: "Yes — JEE Main's window is 3 consecutive years from your Class 12 passing year, whether you attempt or not. A drop year quietly uses up one of those years.", streams: ["science"] },
+  { q: "Can I sit JEE and NEET the same year?", a: "Yes, no restriction — different exam dates, and PCMB prep overlaps heavily across both anyway.", streams: ["science"] },
+  { q: "Do CA / CS / CMA cap the number of attempts?", a: "No — unlike JEE Main, ICAI/ICSI/ICMAI don't cap attempts. You can re-sit a paper across sessions until you clear it.", streams: ["commerce"] },
+  { q: "Does CUET or CLAT have a JEE-style attempt limit?", a: "No — both are open to any Class-12-passed candidate within each year's own eligibility rules, far less restrictive than JEE Main.", streams: ["arts", "commerce", "science"] },
+  { q: "What happens if I miss a JoSAA round?", a: "If you're just not allotted a seat, you stay in the pool automatically. If you ARE allotted and don't respond by the deadline, your candidature can be cancelled — always check your login after each round.", streams: ["science"] },
+  { q: "Do I need 75% in boards even with a good JEE rank?", a: "Yes — NIT/IIIT/CFTI admission separately requires 75% aggregate in boards (or top 20 percentile), 65% for SC/ST/PwD, regardless of your JEE score.", streams: ["science"] },
+  { q: "Is there an age limit for JEE Main or NEET?", a: "Neither currently enforces an upper age limit, following legal rulings. NEET UG does require a minimum age of 17 by December 31 of the admission year.", streams: ["science"] },
+  { q: "Does NEET test Maths at all?", a: "No — NEET is Physics, Chemistry and Biology only. PCB students (no Maths) are fully eligible with no disadvantage on this specific exam.", streams: ["science"] },
+  { q: "Can a Commerce or Arts student still try Science exams later?", a: "Generally no for Maths/PCM-locked exams like JEE Main — but CUET, CLAT, IPMAT and NDA (Army wing) stay open across streams, so cross-stream pivots are still possible through those.", streams: ["commerce", "arts"] },
+  { q: "Can I switch from B.Com into law or CA later on?", a: "Yes — CLAT/AILET are open to any stream and any year of graduation isn't required for the 5-year integrated route straight after 12th. CA Foundation is also open to any stream right after 12th, so neither path requires you to have started Commerce with that specific plan.", streams: ["commerce"] },
+  { q: "Does a design portfolio matter for NID even with a good DAT score?", a: "Yes — DAT Prelims is a screening MCQ round, but the Studio Test and later interview weigh creative/portfolio work heavily. A high Prelims score gets you to the next round, it doesn't guarantee admission on its own.", streams: ["arts", "science"] },
+  { q: "Is ACET (Actuarial Science) worth it if I'm not sure about a Maths-heavy career?", a: "It's a genuinely narrow, demanding path — strong Maths/Stats fundamentals are non-negotiable, and the real qualification comes from clearing multiple professional exams after ACET, not the entrance itself. Worth it only if you enjoy quantitative problem-solving specifically, not as a generic backup.", streams: ["commerce", "science"] },
+  { q: "Can I appear for JEE Advanced without sitting JEE Main?", a: "No — JEE Advanced requires you to be in the top 2.5 lakh of JEE Main Paper 1 qualifiers in the same year. You cannot attempt Advanced directly without qualifying Main first.", streams: ["science"] },
+  { q: "What is the difference between IPMAT and JIPMAT?", a: "IPMAT (IIM Indore's own test) gives access to IIM Indore and IIM Rohtak's 5-year Integrated Programme. JIPMAT (conducted by NTA) gives access to IIM Bodh Gaya, IIM Jammu, and IIM Sirmaur — less competitive, same IIM degree.", streams: ["commerce", "arts"] },
+  { q: "Do state law exams (MHCET Law, KLEE, LAWCET) conflict with CLAT dates?", a: "Usually not — state law exams are scheduled independently of CLAT, so you can appear for all of them in the same cycle. Always check official calendars once notifications drop.", streams: ["arts", "commerce"] },
+  { q: "Is a gap year treated differently for NEET compared to JEE Main?", a: "For NEET there's currently no attempt cap (as of 2027 cycle). For JEE Main, the window is 3 consecutive years from your Class 12 passing year — a gap year uses one of those years whether you attempt or not. NEET gives you more flexibility on this specific point.", streams: ["science"] },
+  { q: "What does 'no negative marking' actually mean in practice for exams like VITEEE?", a: "It means you should attempt every single question — leaving a question blank has the same result as getting it wrong. This fundamentally changes exam strategy: speed and coverage beat selective caution.", streams: ["science"] },
 ];
 
 const SALARY_DATA = [
@@ -273,11 +280,13 @@ const TABS = [
   { id: "counselling", label: "Counselling", icon: Landmark },
   { id: "redflags", label: "Red Flags", icon: ShieldAlert },
   { id: "underrated", label: "Underrated", icon: Gem },
+  { id: "funding", label: "Funding & Loans", icon: Landmark },
   { id: "toolkit", label: "Toolkit", icon: FileText },
   { id: "freeprep", label: "Zero-Cost Prep", icon: BookOpen },
   { id: "faq", label: "FAQ", icon: HelpCircle },
   { id: "wellbeing", label: "Wellbeing", icon: HeartHandshake },
   { id: "salary", label: "Salary", icon: Wallet },
+  { id: "flowchart", label: "What If?", icon: Shuffle },
   { id: "plan", label: "Your Plan", icon: MapPin },
 ];
 const VALID_STREAMS = Object.keys(STREAM_META);
@@ -391,6 +400,12 @@ export default function CareerAtlas() {
   const [tkPaceExam, setTkPaceExam] = useState("jee");
   const [tkDebtT, setTkDebtT] = useState(12);
   const [tkDebtH, setTkDebtH] = useState(6);
+  const [tkDebtI, setTkDebtI] = useState(10);
+
+  // Flowchart & Simulator State
+  const [flowchartTarget, setFlowchartTarget] = useState(null);
+  const [flowchartStep, setFlowchartStep] = useState(0);
+  const [tkSimPriority, setTkSimPriority] = useState("money");
 
   // Scroll to top listener
   useEffect(() => {
@@ -491,6 +506,12 @@ export default function CareerAtlas() {
       extras: MONTH_EXTRAS[m] || [],
     }));
   }, [stream]);
+  const filteredFaqs = useMemo(() => FAQS.filter(f => stream === "all" || f.streams.includes(stream) || f.streams.includes("all")), [stream]);
+  const filteredSituations = useMemo(() => SITUATIONS.filter(s => stream === "all" || s.streams.includes(stream) || s.streams.includes("all")), [stream]);
+  const filteredRedFlags = useMemo(() => RED_FLAGS.filter(r => stream === "all" || r.streams.includes(stream) || r.streams.includes("all")), [stream]);
+  const filteredUnderrated = useMemo(() => UNDERRATED.filter(u => stream === "all" || u.streams.includes(stream) || u.streams.includes("all")), [stream]);
+  const filteredScholarships = useMemo(() => SCHOLARSHIPS.filter(s => stream === "all" || s.streams.includes(stream) || s.streams.includes("all")), [stream]);
+  const filteredLoans = useMemo(() => LOANS.filter(l => stream === "all" || l.streams.includes(stream) || l.streams.includes("all")), [stream]);
 
   const [salaryOnlyStream, setSalaryOnlyStream] = useState(false);
   const filteredSalary = useMemo(() => {
@@ -583,6 +604,26 @@ export default function CareerAtlas() {
     () => starredExams.reduce((sum, e) => sum + (FEE_MAP[e.name] || 800), 0),
     [starredExams]
   );
+
+  const roiData = useMemo(() => {
+    return starredExams.map(e => {
+      let feesVal = 10;
+      if (e.fees.includes("Free") || e.fees.includes("Low") || e.fees.includes("subsidised") || e.fees.includes("Stipend") || e.fees.includes("nominal")) feesVal = 2;
+      else {
+        const fMatch = e.fees.match(/₹(\d+)/);
+        if (fMatch) feesVal = parseInt(fMatch[1]);
+      }
+      let salVal = 5;
+      const sMatch = e.salary.match(/₹(\d+)/);
+      if (sMatch) salVal = parseInt(sMatch[1]);
+      
+      return {
+        name: e.name,
+        fees: feesVal,
+        salary: salVal
+      };
+    });
+  }, [starredExams]);
 
   // Smart Advisor Recommendation Engine
   const advisorResults = useMemo(() => {
@@ -679,7 +720,7 @@ export default function CareerAtlas() {
         .clay-card:hover { transform: translateY(-3px); }
 
         @keyframes clayPop { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        .clay-pop { animation: clayPop .35s ease both; }
+        .clay-pop { /* Disabled in favor of framer-motion */ }
 
         @keyframes heartbeat { 0%,100% { transform: scale(1); } 14% { transform: scale(1.3); } 28% { transform: scale(1); } 42% { transform: scale(1.2); } 56% { transform: scale(1); } }
 
@@ -987,7 +1028,15 @@ export default function CareerAtlas() {
           {TABS.map((t) => <Pill key={t.id} active={tab === t.id} icon={t.icon} onClick={() => setTab(t.id)}>{t.label}</Pill>)}
         </div>
 
-        {/* ── HOME / EXAMS ── */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={tab}
+            initial={{ opacity: 0, y: 15, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -15, scale: 0.98 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+          >
+            {/* ── HOME / EXAMS ── */}
         {tab === "home" && (
           <div key="home" className="clay-pop">
             <SectionHead eyebrow="Complete Overview" title={`${meta.label} Exams`} body="Every entrance exam worth knowing, filtered to your stream. Tap a card to see its format & marking scheme; tap the star to pin it." />
@@ -1260,6 +1309,28 @@ export default function CareerAtlas() {
                     ))}
                   </div>
                 )}
+                
+                <div className="mt-8">
+                  <div className="clay-h2 mb-2">Return on Investment (ROI) Matrix</div>
+                  <p className="clay-body-text mb-4">A visualization of Total Course Fee vs Expected Starting Salary for your starred exams. Top-Left is the highest ROI (low cost, high salary).</p>
+                  <ClayCard style={{ padding: "20px 20px 40px 10px", background: "var(--card)" }}>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                        <XAxis type="number" dataKey="fees" name="Total Fees" unit="L" tick={{ fontSize: 12, fill: "var(--muted)" }} tickLine={false} axisLine={false} />
+                        <YAxis type="number" dataKey="salary" name="Avg Salary" unit=" LPA" tick={{ fontSize: 12, fill: "var(--muted)" }} tickLine={false} axisLine={false} />
+                        <ZAxis type="category" dataKey="name" name="Exam" />
+                        <Tooltip cursor={{ strokeDasharray: '3 3' }} contentStyle={{ borderRadius: 12, border: "none", boxShadow: "0 4px 12px rgba(120,105,160,.2)", fontFamily: "Outfit" }} />
+                        <Scatter data={roiData} fill="var(--gold)">
+                          {roiData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.fees < 5 && entry.salary >= 8 ? "var(--com)" : "var(--gold)"} />
+                          ))}
+                        </Scatter>
+                      </ScatterChart>
+                    </ResponsiveContainer>
+                    <p className="text-center mt-2 text-xs" style={{ color: "var(--muted)" }}>Green dots indicate high-leverage options (Cost &lt; 5L, Salary &gt;= 8 LPA)</p>
+                  </ClayCard>
+                </div>
+
                 <div className="flex justify-center mt-6">
                   <button className="clay-pill" onClick={copyShortlist}>
                     <Copy size={14} /> {copied ? "Copied!" : `Copy full starred list (${starredExams.length})`}
@@ -1325,10 +1396,19 @@ export default function CareerAtlas() {
               <div className="flex items-center gap-2 mb-2" style={{ color: "#7a3229", fontWeight: 700 }}><ShieldAlert size={18} /> The "One-Chance Only" Rule</div>
               <p className="clay-body-text mb-3" style={{ color: "#7a3229" }}>Not all exams allow multiple attempts. If you are dropping, you must know your eligibility:</p>
               <ul className="space-y-2 text-sm" style={{ color: "#7a3229" }}>
-                <li className="flex gap-2"><span className="font-bold">JEE Advanced:</span> Only allows ONE drop year (consecutive to passing 12th).</li>
-                <li className="flex gap-2"><span className="font-bold">BITSAT:</span> Only allows ONE drop year (consecutive to passing 12th).</li>
-                <li className="flex gap-2"><span className="font-bold">NDA:</span> Strict upper age limit of 19.5 years during joining. Most droppers age out.</li>
-                <li className="flex gap-2"><span className="font-bold">NEET & CLAT:</span> No attempt/age limits currently. Very dropper-friendly.</li>
+                {(stream === "science" || stream === "all") && (
+                  <>
+                    <li className="flex gap-2"><span className="font-bold">JEE Advanced:</span> Only allows ONE drop year (consecutive to passing 12th).</li>
+                    <li className="flex gap-2"><span className="font-bold">BITSAT:</span> Only allows ONE drop year (consecutive to passing 12th).</li>
+                    <li className="flex gap-2"><span className="font-bold">NEET:</span> No attempt limits. Dropper-friendly.</li>
+                  </>
+                )}
+                {(stream === "arts" || stream === "commerce" || stream === "all") && (
+                  <>
+                    <li className="flex gap-2"><span className="font-bold">NDA:</span> Strict upper age limit of 19.5 years during joining. Most droppers age out.</li>
+                    <li className="flex gap-2"><span className="font-bold">CLAT / CUET:</span> No attempt/age limits currently. Very dropper-friendly.</li>
+                  </>
+                )}
               </ul>
             </ClayCard>
 
@@ -1337,8 +1417,8 @@ export default function CareerAtlas() {
                 <div className="clay-h2 mb-2" style={{ fontSize: 16, color: "#4a3418" }}>High-Yield Drop Exams</div>
                 <p className="clay-body-text mb-3 text-sm" style={{ color: "#4a3418", opacity: 0.8 }}>Exams where 1 extra year of pure syllabus grind translates directly to rank.</p>
                 <ul className="space-y-2 text-sm" style={{ color: "#4a3418" }}>
-                  <li className="flex gap-2"><b>Science:</b> JEE Main, NEET, WBJEE</li>
-                  <li className="flex gap-2"><b>Commerce/Arts:</b> CLAT, IPMAT, CUET</li>
+                  {(stream === "science" || stream === "all") && <li className="flex gap-2"><b>Science:</b> JEE Main, NEET, WBJEE</li>}
+                  {(stream === "commerce" || stream === "arts" || stream === "all") && <li className="flex gap-2"><b>Commerce/Arts:</b> CLAT, IPMAT, CUET</li>}
                 </ul>
               </ClayCard>
 
@@ -1346,8 +1426,8 @@ export default function CareerAtlas() {
                 <div className="clay-h2 mb-2" style={{ fontSize: 16, color: "#1c3252" }}>The "No Double-Drop" Backups</div>
                 <p className="clay-body-text mb-3 text-sm" style={{ color: "#1c3252", opacity: 0.8 }}>You MUST take these to ensure you don't waste a second year.</p>
                 <ul className="space-y-2 text-sm" style={{ color: "#1c3252" }}>
-                  <li className="flex gap-2"><b>Science:</b> State CETs (MHT-CET, KCET), VITEEE, SRMJEEE</li>
-                  <li className="flex gap-2"><b>Commerce/Arts:</b> CUET (keep maximum domains), Christ/Symbiosis tests</li>
+                  {(stream === "science" || stream === "all") && <li className="flex gap-2"><b>Science:</b> State CETs (MHT-CET, KCET), VITEEE, SRMJEEE</li>}
+                  {(stream === "commerce" || stream === "arts" || stream === "all") && <li className="flex gap-2"><b>Commerce/Arts:</b> CUET (keep maximum domains), Christ/Symbiosis tests</li>}
                 </ul>
               </ClayCard>
             </div>
@@ -1421,7 +1501,7 @@ export default function CareerAtlas() {
             <SectionHead eyebrow="Protect Yourself & Your Family's Money" title="Red Flags To Avoid" />
             <ClayCard style={{ background: "var(--danger-bg)" }}>
               <ul className="space-y-3">
-                {RED_FLAGS.map((r, i) => <li key={i} className="text-sm flex gap-3" style={{ color: "#7a3229" }}><AlertTriangle size={16} className="mt-0.5 flex-shrink-0" /> {r}</li>)}
+                {filteredRedFlags.map((r, i) => <li key={i} className="text-sm flex gap-3" style={{ color: "#7a3229" }}><AlertTriangle size={16} className="mt-0.5 flex-shrink-0" /> {r.text}</li>)}
               </ul>
             </ClayCard>
           </div>
@@ -1432,7 +1512,7 @@ export default function CareerAtlas() {
           <div key="underrated" className="clay-pop">
             <SectionHead eyebrow="Beyond The Obvious" title="Underrated Exams & Low-Cost Scholarships" />
             <div className="grid gap-4 mb-6" style={{ gridTemplateColumns: "repeat(auto-fill,minmax(230px,1fr))" }}>
-              {UNDERRATED.map((u) => (
+              {filteredUnderrated.map((u) => (
                 <ClayCard key={u.name}>
                   <div className="clay-h2 mb-1" style={{ fontSize: 16 }}>{u.name}</div>
                   <div className="clay-body-text mb-2" style={{ fontSize: 12.5 }}>{u.where}</div>
@@ -1441,11 +1521,29 @@ export default function CareerAtlas() {
                 </ClayCard>
               ))}
             </div>
-            <div className="clay-eyebrow mb-3">Fully / near-fully funded, free applications</div>
-            <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fill,minmax(210px,1fr))" }}>
-              {SCHOLARSHIPS.map((s) => (
-                <ClayCard key={s.name} style={{ padding: 18 }}>
-                  <div className="flex justify-between items-center mb-1"><span style={{ fontWeight: 700 }}>{s.name}</span><Chip bg="var(--gold-bg)" color="#4a3418">{s.region}</Chip></div>
+          </div>
+        )}
+
+        {/* ── FUNDING & LOANS ── */}
+        {tab === "funding" && (
+          <div key="funding" className="clay-pop">
+            <SectionHead eyebrow="Pay for College" title="Funding, Loans & Scholarships" body="Understanding how to finance your education." />
+            
+            <div className="clay-h2 mb-4 mt-2" style={{ fontSize: 20 }}>Education Loans</div>
+            <div className="grid gap-4 mb-8" style={{ gridTemplateColumns: "repeat(auto-fill,minmax(230px,1fr))" }}>
+              {filteredLoans.map((l) => (
+                <ClayCard key={l.name}>
+                  <div className="flex justify-between items-center mb-2"><span style={{ fontWeight: 700 }}>{l.name}</span><Chip bg="var(--gold-bg)" color="#4a3418">{l.type}</Chip></div>
+                  <p className="clay-body-text">{l.note}</p>
+                </ClayCard>
+              ))}
+            </div>
+
+            <div className="clay-h2 mb-4" style={{ fontSize: 20 }}>Scholarships & Grants</div>
+            <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill,minmax(230px,1fr))" }}>
+              {filteredScholarships.map((s) => (
+                <ClayCard key={s.name}>
+                  <div className="flex justify-between items-center mb-2"><span style={{ fontWeight: 700 }}>{s.name}</span><Chip bg="var(--sci-bg)" color="#1c3252">{s.region}</Chip></div>
                   <p className="clay-body-text">{s.note}</p>
                 </ClayCard>
               ))}
@@ -1459,6 +1557,44 @@ export default function CareerAtlas() {
             <SectionHead eyebrow="Calculators & Checklists" title="The Ultimate Exam Toolkit" body="Everything you need to survive exam day and plan your future." />
             
             <div className="grid gap-5 mb-6" style={{ gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))" }}>
+              {/* College vs Branch Simulator */}
+              <ClayCard style={{ gridColumn: "1 / -1" }}>
+                <div className="flex items-center gap-2 mb-3 font-bold text-lg" style={{ color: "var(--ink)" }}><GitMerge size={18} style={{color:"var(--com)"}}/> College vs. Branch Simulator</div>
+                <div className="clay-body-text mb-4">The classic dilemma: Do you take a lower branch (e.g. Civil/Meta) at a Tier-1 college, or a top branch (e.g. CSE/IT) at a Tier-2 college?</div>
+                
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex-1 space-y-3">
+                    <div className="clay-eyebrow">What is your absolute highest priority?</div>
+                    <div className="flex flex-col gap-2">
+                      <button className={`clay-pill justify-start ${tkSimPriority === "money" ? "clay-pill-active tone-science" : ""}`} onClick={() => setTkSimPriority("money")}>💰 Highest Starting Salary (Tech Placements)</button>
+                      <button className={`clay-pill justify-start ${tkSimPriority === "tag" ? "clay-pill-active tone-commerce" : ""}`} onClick={() => setTkSimPriority("tag")}>🏛️ The "Tag", Alumni Network, or MBA/UPSC later</button>
+                      <button className={`clay-pill justify-start ${tkSimPriority === "passion" ? "clay-pill-active tone-arts" : ""}`} onClick={() => setTkSimPriority("passion")}>❤️ Genuine passion for a specific field (like CS or Aero)</button>
+                    </div>
+                  </div>
+                  
+                  <div className="flex-1 p-4 rounded-xl" style={{ background: tkSimPriority === "money" || tkSimPriority === "passion" ? "var(--com-bg)" : "var(--sci-bg)" }}>
+                    <div className="clay-eyebrow mb-1">Mathematical Verdict:</div>
+                    {tkSimPriority === "money" && (
+                      <div>
+                        <div className="text-lg font-bold mb-2" style={{ color: "var(--ink)" }}>Pick the Top Branch (Tier 2)</div>
+                        <p className="clay-body-text text-sm">Tech companies often filter by branch (CSE/IT/ECE). A lower branch at an IIT/NIT might block you from sitting for tech placements. If immediate tech salary is the goal, Tier 2 CSE beats Tier 1 Civil.</p>
+                      </div>
+                    )}
+                    {tkSimPriority === "tag" && (
+                      <div>
+                        <div className="text-lg font-bold mb-2" style={{ color: "var(--ink)" }}>Pick the Top College (Tier 1)</div>
+                        <p className="clay-body-text text-sm">If you plan to pivot to IIMs, UPSC, Consulting, or Ivy League Masters, the brand name opens doors that Tier 2 cannot. The branch matters much less for non-tech career pivots.</p>
+                      </div>
+                    )}
+                    {tkSimPriority === "passion" && (
+                      <div>
+                        <div className="text-lg font-bold mb-2" style={{ color: "var(--ink)" }}>Pick the Branch (Any Tier)</div>
+                        <p className="clay-body-text text-sm">Four years of studying something you hate will destroy your GPA and mental health. Take the branch you actually want to study, even if the college isn't famous.</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </ClayCard>
               {/* Pace Calculator */}
               <ClayCard>
                 <div className="flex items-center gap-2 mb-3 font-bold text-lg" style={{ color: "var(--ink)" }}><Wind size={18} style={{color:"var(--sci)"}}/> Exam Pace Calculator</div>
@@ -1498,10 +1634,14 @@ export default function CareerAtlas() {
                     <label className="clay-eyebrow">4-Year Hostel/Living (Lakhs): ₹{tkDebtH}L</label>
                     <input type="range" min="0" max="20" value={tkDebtH} onChange={e=>setTkDebtH(Number(e.target.value))} className="w-full mt-1" />
                   </div>
+                  <div>
+                    <label className="clay-eyebrow">Interest Rate (%): {tkDebtI}%</label>
+                    <input type="range" min="0" max="15" step="0.5" value={tkDebtI} onChange={e=>setTkDebtI(Number(e.target.value))} className="w-full mt-1" />
+                  </div>
                 </div>
                 <div className="p-3 rounded-xl" style={{background: "var(--danger-bg)"}}>
-                  <div className="clay-body-text" style={{color:"#7a3229", fontSize:13}}>Total Cost: <b>₹{tkDebtT + tkDebtH} Lakhs</b></div>
-                  <div className="clay-body-text" style={{color:"#7a3229", fontSize:12, marginTop:4}}><i>If taking an education loan at 10%, expect to pay ~₹{((tkDebtT+tkDebtH)*1.4).toFixed(1)}L over 7 years.</i></div>
+                  <div className="clay-body-text" style={{color:"#7a3229", fontSize:13}}>Principal Loan Amount: <b>₹{tkDebtT + tkDebtH} Lakhs</b></div>
+                  <div className="clay-body-text" style={{color:"#7a3229", fontSize:12, marginTop:4}}><i>Assuming a standard 7-year repayment period at {tkDebtI}% interest, total repayment is ~<b>₹{((tkDebtT+tkDebtH) * Math.pow(1 + tkDebtI / 100, 7)).toFixed(1)}L</b>.</i></div>
                 </div>
               </ClayCard>
 
@@ -1600,7 +1740,7 @@ export default function CareerAtlas() {
           <div key="faq" className="clay-pop">
             <SectionHead eyebrow="Quick Answers" title="Frequently Asked Questions" />
             <div className="space-y-3">
-              {FAQS.map((f, i) => (
+              {filteredFaqs.map((f, i) => (
                 <ClayCard key={i} style={{ padding: "18px 22px", cursor: "pointer" }}>
                   <div onClick={() => setOpenFaq(openFaq === i ? null : i)} className="flex items-center justify-between">
                     <div className="flex items-center gap-3"><Info size={16} style={{ color: "var(--gold)", flexShrink: 0 }} /><span style={{ fontWeight: 600 }}>{f.q}</span></div>
@@ -1675,20 +1815,121 @@ export default function CareerAtlas() {
           </div>
         )}
 
+        {/* ── FLOWCHART ── */}
+        {tab === "flowchart" && (
+          <div key="flowchart">
+            <SectionHead eyebrow="Interactive Map" title="What If I Fail?" body="Pick your primary target below. We'll map out exactly what happens if you don't clear it, so you can stop fearing the unknown." />
+            
+            {flowchartStep === 0 && (
+              <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fill,minmax(200px,1fr))" }}>
+                {starredExams.map(e => (
+                  <ClayCard key={e.name} className="text-center" style={{ cursor: "pointer" }} onClick={() => { setFlowchartTarget(e); setFlowchartStep(1); }}>
+                    <div className="font-bold text-lg mb-1">{e.name}</div>
+                    <div className="clay-body-text text-sm">Select as Primary</div>
+                  </ClayCard>
+                ))}
+                {starredExams.length === 0 && (
+                  <ClayCard className="col-span-full text-center">
+                    <p className="clay-body-text">Please star some exams in the Exams tab first!</p>
+                  </ClayCard>
+                )}
+              </div>
+            )}
+
+            {flowchartStep > 0 && flowchartTarget && (
+              <div className="flex flex-col items-center max-w-2xl mx-auto px-2">
+                <button className="clay-body-text mb-6 flex items-center gap-2" style={{ background:"none", border:"none", cursor:"pointer", textDecoration:"underline" }} onClick={() => setFlowchartStep(0)}>
+                  <RotateCcw size={14}/> Start Over
+                </button>
+
+                <ClayCard style={{ padding: "20px 40px", textAlign: "center", border: "2px solid var(--gold)" }}>
+                  <div className="clay-eyebrow">Target Exam</div>
+                  <div className="text-2xl font-bold" style={{ color: "var(--ink)" }}>{flowchartTarget.name}</div>
+                </ClayCard>
+
+                {flowchartStep === 1 && (
+                  <>
+                    <div className="clay-track" style={{ height: 40 }} />
+                    <div className="flex flex-col sm:flex-row gap-4 w-full">
+                      <ClayCard className="flex-1 text-center cursor-pointer hover:bg-green-50" onClick={() => setFlowchartStep(2)}>
+                        <div className="text-xl mb-1">🎉</div>
+                        <div className="font-bold text-green-700">I cleared it!</div>
+                      </ClayCard>
+                      <ClayCard className="flex-1 text-center cursor-pointer hover:bg-red-50" onClick={() => setFlowchartStep(3)}>
+                        <div className="text-xl mb-1">💀</div>
+                        <div className="font-bold text-red-700">I failed / missed cutoff.</div>
+                      </ClayCard>
+                    </div>
+                  </>
+                )}
+
+                {flowchartStep === 2 && (
+                  <>
+                    <div className="clay-track" style={{ height: 40 }} />
+                    <ClayCard style={{ padding: "30px", textAlign: "center", width: "100%", background: "var(--com-bg)" }}>
+                      <div className="text-4xl mb-4">🥂</div>
+                      <div className="text-2xl font-bold mb-2" style={{ color: "var(--ink)" }}>Congratulations.</div>
+                      <p className="clay-body-text">You're heading to {flowchartTarget.colleges}. Prepare your documents and start packing.</p>
+                    </ClayCard>
+                  </>
+                )}
+
+                {flowchartStep === 3 && (
+                  <>
+                    <div className="clay-track" style={{ height: 40 }} />
+                    <div className="clay-eyebrow mb-2 text-center w-full">Don't panic. Pick your fallback:</div>
+                    <div className="flex flex-col gap-4 w-full">
+                      <ClayCard className="w-full text-left cursor-pointer" onClick={() => setFlowchartStep(4)}>
+                        <div className="font-bold text-lg text-blue-700 mb-1">Branch 1: Take the State CET / Private Exam</div>
+                        <p className="clay-body-text text-sm">You prepared for {flowchartTarget.name}, so exams like MHT-CET, COMEDK, or Symbiosis will feel easier. The syllabus is identical but less deep.</p>
+                      </ClayCard>
+                      <ClayCard className="w-full text-left cursor-pointer" onClick={() => setFlowchartStep(5)}>
+                        <div className="font-bold text-lg text-purple-700 mb-1">Branch 2: Pivot to CUET (General Degrees)</div>
+                        <p className="clay-body-text text-sm">Abandon the fierce technical rat race. Use your board knowledge to grab a B.Sc, B.Com, or BA at a top Central University (DU/BHU).</p>
+                      </ClayCard>
+                      <ClayCard className="w-full text-left cursor-pointer" onClick={() => setFlowchartStep(6)}>
+                        <div className="font-bold text-lg text-orange-700 mb-1">Branch 3: Take a Drop Year</div>
+                        <p className="clay-body-text text-sm">If you were close, and you strictly want {flowchartTarget.name}. High risk, high reward.</p>
+                      </ClayCard>
+                    </div>
+                  </>
+                )}
+
+                {flowchartStep >= 4 && (
+                  <>
+                    <div className="clay-track" style={{ height: 40 }} />
+                    <ClayCard style={{ padding: "30px", textAlign: "center", width: "100%" }}>
+                      <div className="text-3xl mb-4">🚀</div>
+                      <div className="text-xl font-bold mb-2" style={{ color: "var(--ink)" }}>You still win.</div>
+                      <p className="clay-body-text">
+                        {flowchartStep === 4 && "You graduate from a strong regional college, save on fees, and get placed in the same companies as Tier 1 graduates. Your career is completely safe."}
+                        {flowchartStep === 5 && "You get the prestige of Delhi University, a massive alumni network, and can easily pivot into MBA, UPSC, or Data Science later. You bypassed the rat race."}
+                        {flowchartStep === 6 && "You dedicate 8 months to fixing your weak spots. Even if you miss again, your backup scores will skyrocket. The gap year won't matter in 5 years."}
+                      </p>
+                    </ClayCard>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* ── PLAN ── */}
         {tab === "plan" && (
           <div key="plan" className="clay-pop">
             <SectionHead eyebrow="Action Plan" title="What You Should Do Right Now" body="A stream-neutral structure — swap in your own exam names wherever it says 'entrance exam'." />
-            <div className="space-y-4">
-              {PLAN_STEPS.map((s, i) => (
+            <div className="space-y-6">
+              {PLAN_STEPS.map((sit, i) => (
                 <ClayCard key={i} className="flex gap-4 items-start">
                   <div className="clay-node flex-shrink-0" style={{ background: "var(--gold-bg)", color: "#4a3418", minWidth: 38, justifyContent: "center" }}>{i + 1}</div>
-                  <div><div style={{ fontWeight: 700, marginBottom: 4 }}>{s.t}</div><p className="clay-body-text">{s.d}</p></div>
+                  <div><div style={{ fontWeight: 700, marginBottom: 4 }}>{sit.t}</div><p className="clay-body-text">{sit.d}</p></div>
                 </ClayCard>
               ))}
             </div>
           </div>
         )}
+          </motion.div>
+        </AnimatePresence>
 
         <div className="text-center mt-16" style={{ paddingBottom: 10 }}>
           <div style={{ fontSize: 42, lineHeight: 1, marginBottom: 10, display: "inline-block" }}>❤️</div>
