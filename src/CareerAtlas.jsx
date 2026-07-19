@@ -32,7 +32,7 @@ const EXAMS = [
   { name: "WBJEE", stream: "science", subj: "PCM", reqMaths: true, reqBio: false, gets: "WB state engg/pharmacy colleges", difficulty: "Moderate", fees: "₹1.5–3L (4yr)", salary: "₹5–12 LPA", tag: "", month: "Apr 2027", when: "April", fmtMode: "Offline · 4 hrs (2 papers)", fmtQs: "155 Qs · 3-tier marking", cutoff: "Rank under 5,000 for CSE at top colleges", fmtExtra: "Category III has zero negative marking", link: "wbjeeb.nic.in", colleges: "Jadavpur University, IIEST Shibpur" },
   { name: "BITSAT", stream: "science", subj: "PCM", reqMaths: true, reqBio: false, gets: "BITS Pilani/Goa/Hyderabad", difficulty: "Hard", fees: "₹20L+ (4yr, private)", salary: "₹10–20 LPA", tag: "", month: "May 2027", when: "May–June", fmtMode: "CBT · 3 hrs", fmtQs: "130 Qs · +3/−1", cutoff: "320+/450 for Pilani campus CSE", fmtExtra: "Optional English + Logical Reasoning section", link: "bitsadmission.com", colleges: "BITS Pilani, Goa, Hyderabad" },
   { name: "IMU CET", stream: "science", subj: "PCM", reqMaths: true, reqBio: false, gets: "Merchant Navy — Marine Engg", difficulty: "Moderate", fees: "₹3–8L (4yr)", salary: "₹24–72 LPA (senior)", tag: "🔥", month: "May 2027", when: "May–June", fmtMode: "CBT · 3 hrs", fmtQs: "200 MCQs", cutoff: "Top ~500 rank", fmtExtra: "Dedicated English & General Aptitude section", link: "imu.edu.in", colleges: "IMU Chennai + 6 campuses" },
-  { name: "NATA / JEE Paper 2", stream: "science", subj: "PCM", reqMaths: true, reqBio: false, gets: "B.Arch — architecture colleges", difficulty: "Moderate", fees: "₹2–5L (5yr)", salary: "₹6–12 LPA", tag: "", month: "Apr 2027", when: "Apr–Jul", fmtMode: "CBT + offline Drawing Test", fmtQs: "Aptitude MCQs + 2 drawing Qs", cutoff: "80+/200 for a decent B.Arch seat", fmtExtra: "Hand-drawn spatial test — outside any PCMB subject", link: "nata.in", colleges: "SPA Delhi, govt architecture colleges" },
+  { name: "NATA / JEE Paper 2", stream: "all", subj: "Any with Maths", reqMaths: true, reqBio: false, gets: "B.Arch — architecture colleges", difficulty: "Moderate", fees: "₹2–5L (5yr)", salary: "₹6–12 LPA", tag: "", month: "Apr 2027", when: "Apr–Jul", fmtMode: "CBT + offline Drawing Test", fmtQs: "Aptitude MCQs + 2 drawing Qs", cutoff: "80+/200 for a decent B.Arch seat", fmtExtra: "Hand-drawn spatial test — open to all streams with Maths; Science students can also use JEE Main Paper 2", link: "nata.in", colleges: "SPA Delhi, govt architecture colleges" },
   { name: "UCEED", stream: "science", subj: "Any", reqMaths: false, reqBio: false, gets: "B.Des at IITs, IIITDM", difficulty: "Hard", fees: "₹8–10L (4yr)", salary: "₹8–15 LPA", tag: "⭐", month: "Jan 2027", when: "January", fmtMode: "Part A CBT + Part B pen&paper", fmtQs: "MCQ/NAT + design tasks", cutoff: "Rank under 100 for IIT Bombay design", fmtExtra: "Zero PCMB content — pure visual/spatial reasoning", link: "uceed.iitb.ac.in", colleges: "IIT Bombay, Guwahati, Delhi" },
   { name: "NCHM JEE", stream: "science", subj: "Any", reqMaths: false, reqBio: false, gets: "Central Hotel Mgmt Institutes", difficulty: "Easy-Mod", fees: "₹1–3L (4yr)", salary: "₹4–9 LPA", tag: "", month: "Apr 2027", when: "Apr–May", fmtMode: "CBT · 3 hrs", fmtQs: "200 Qs across 5 sections", cutoff: "Rank under 3,000", fmtExtra: "Numerical, Reasoning, GK, English, Service Aptitude", link: "nchmjee.nta.nic.in", colleges: "21 Central IHMs" },
   { name: "ICAR AIEEA", stream: "science", subj: "PCB/PCM", reqMaths: false, reqBio: false, gets: "BSc Agriculture (govt)", difficulty: "Moderate", fees: "₹20K–60K/yr", salary: "₹4–10 LPA", tag: "", month: "May 2027", when: "May–June", fmtMode: "CBT · 3 hrs", fmtQs: "150 Qs · +4/−1", cutoff: "Top ~5,000 rank", fmtExtra: "None beyond PCB/PCM — one of the lightest-prep exams here", link: "icar.nta.nic.in", colleges: "IARI Delhi, State Agri Universities" },
@@ -48,7 +48,7 @@ const EXAMS = [
   { name: "NIFT Entrance", stream: "arts", subj: "Any", reqMaths: false, reqBio: false, gets: "Fashion / Textile / Accessory Design", difficulty: "Hard", fees: "Moderate", salary: "₹5–12 LPA", tag: "", month: "Jan 2027", when: "Jan–Feb", fmtMode: "CAT (MCQ) + Situation Test", fmtQs: "GAT for Fashion Mgmt track", cutoff: "Rank under 500", fmtExtra: "Creative Ability Test — sketching & design sense", link: "nift.ac.in", colleges: "NIFT Delhi, Mumbai + 14 more campuses" },
   { name: "TISS-BAT", stream: "arts", subj: "Any", reqMaths: false, reqBio: false, gets: "Social Sciences, Dev. Studies", difficulty: "Moderate", fees: "Low", salary: "₹4–9 LPA", tag: "⭐", month: "May 2027", when: "Around May", fmtMode: "CBT · around 2 hrs", fmtQs: "MCQ, GK + reasoning + English", cutoff: "Top ~300 rank", fmtExtra: "No PCMB/Commerce content — pure aptitude", link: "tiss.edu", colleges: "TISS Mumbai, Hyderabad, Guwahati" },
   { name: "IIMC / Jamia MassComm", stream: "arts", subj: "Any", reqMaths: false, reqBio: false, gets: "Journalism & Mass Comm", difficulty: "Moderate", fees: "Low (govt)", salary: "₹4–10 LPA", tag: "", month: "Jun 2027", when: "Varies", fmtMode: "Offline · written + interview", fmtQs: "English + GK + current affairs heavy", cutoff: "Top ~100 — very limited seats", fmtExtra: "Strong current-affairs habit matters more than any textbook", link: "iimc.gov.in", colleges: "IIMC Delhi + regional campuses" },
-  { name: "CUET UG", stream: "all", subj: "Any", reqMaths: false, reqBio: false, gets: "250+ universities, any domain", difficulty: "Easy-Mod", fees: "₹5K–90K/yr", salary: "₹4–10 LPA", tag: "🛟", month: "May 2027", when: "May–June", fmtMode: "CBT · ~60 min/paper", fmtQs: "50 Qs/paper · +5/−1", cutoff: "80+ percentile for top DU colleges", fmtExtra: "General Test — reasoning + GK", link: "cuet.nta.nic.in", colleges: "DU, BHU, JNU, AMU + 250 more" },
+  { name: "CUET UG", stream: "all", subj: "Any", reqMaths: false, reqBio: false, gets: "250+ universities, any domain", difficulty: "Easy-Mod", fees: "₹5K–90K/yr", salary: "₹4–10 LPA", tag: "🛟", month: "May 2027", when: "May–June", fmtMode: "CBT · ~60 min/paper", fmtQs: "50 Qs/paper · +5/−1", cutoff: "80+ percentile for top DU colleges", fmtExtra: "Pick your stream's domain subjects + General Test. One score unlocks DU, BHU, JNU, AMU and 250+ more — the single highest-leverage exam for Commerce and Arts students", link: "cuet.nta.nic.in", colleges: "DU, BHU, JNU, AMU + 250 more" },
   { name: "MHT-CET", stream: "science", subj: "PCM", reqMaths: true, reqBio: false, gets: "Maharashtra state engg/pharmacy colleges", difficulty: "Moderate", fees: "₹1–3L (4yr)", salary: "₹4–9 LPA", tag: "🛟", month: "Apr 2027", when: "Apr–May", fmtMode: "Mostly CBT, some offline", fmtQs: "~150 Qs, state-specific marking", cutoff: "Percentile 95+ for a strong branch", fmtExtra: "No extra subject — pure PCM/PCB, home-state quotas apply", link: "cetcell.mahacet.org", colleges: "COEP Pune, VJTI Mumbai" },
   { name: "KCET", stream: "science", subj: "PCM", reqMaths: true, reqBio: false, gets: "Karnataka state engg/medical colleges", difficulty: "Moderate", fees: "₹1–3L (4yr)", salary: "₹4–9 LPA", tag: "🛟", month: "Apr 2027", when: "Apr–May", fmtMode: "Mostly CBT, some offline", fmtQs: "~150 Qs, state-specific marking", cutoff: "Rank under 5,000", fmtExtra: "No extra subject — pure PCM/PCB, home-state quotas apply", link: "kea.kar.nic.in", colleges: "UVCE, state engg colleges" },
   { name: "KEAM", stream: "science", subj: "PCM/PCB", reqMaths: false, reqBio: false, gets: "Kerala state engg/medical colleges", difficulty: "Moderate", fees: "₹1–3L (4yr)", salary: "₹4–9 LPA", tag: "🛟", month: "Apr 2027", when: "Apr–May", fmtMode: "Mostly CBT, some offline", fmtQs: "~150 Qs, state-specific marking", cutoff: "Rank under 3,000", fmtExtra: "No extra subject — pure PCM/PCB, home-state quotas apply", link: "cee.kerala.gov.in", colleges: "College of Engineering Trivandrum" },
@@ -67,13 +67,33 @@ const EXAMS = [
   { name: "SSC CHSL", stream: "all", subj: "Any", reqMaths: false, reqBio: false, gets: "Govt clerical/assistant roles straight after 12th", difficulty: "Moderate", fees: "Free/nominal", salary: "₹3–6 LPA + govt benefits", tag: "🛟", month: "Aug 2027", when: "Annual, notification ~varies", fmtMode: "CBT, 2 tiers", fmtQs: "Tier 1: 100 Qs · Tier 2: descriptive", cutoff: "Top ~5,000 (all-India, category-dependent)", fmtExtra: "General Awareness + Quant + English + Reasoning", link: "ssc.nic.in", colleges: "Central govt offices nationwide" },
   { name: "FTII / SRFTI Entrance", stream: "arts", subj: "Any", reqMaths: false, reqBio: false, gets: "Film & Television direction, editing, cinematography", difficulty: "Hard", fees: "Low (govt institutes)", salary: "₹4–15 LPA (highly variable)", tag: "⭐", month: "Jun 2027", when: "Varies by course", fmtMode: "Written + interview/portfolio", fmtQs: "Course-specific creative & written test", cutoff: "Rank under 50 — extremely limited seats", fmtExtra: "Portfolio/creative submission matters as much as the written test", link: "ftii.ac.in", colleges: "FTII Pune, SRFTI Kolkata" },
   { name: "NSD Entrance", stream: "arts", subj: "Any", reqMaths: false, reqBio: false, gets: "National School of Drama — acting, direction, design", difficulty: "Hard", fees: "Low (govt institute)", salary: "₹3–10 LPA (highly variable)", tag: "", month: "Jun 2027", when: "Annual", fmtMode: "Written + workshop + interview", fmtQs: "Multi-stage selection over several days", cutoff: "Rank under 30 — extremely limited seats", fmtExtra: "Workshop-based evaluation, not a single written paper", link: "nsd.gov.in", colleges: "National School of Drama, Delhi" },
+  { name: "JEE Advanced", stream: "science", subj: "PCM", reqMaths: true, reqBio: false, gets: "IITs — B.Tech, Dual Degree, B.Arch", difficulty: "Very Hard", fees: "₹6–10L (4yr)", salary: "₹12–35 LPA", tag: "🔥", month: "May 2027", when: "May (2nd Sunday)", fmtMode: "CBT · 3 hrs × 2 papers", fmtQs: "Paper 1 + 2 — MSQ, Numerical & MCQ mix", cutoff: "IIT seat needs AIR under ~5,000 CRL; top branches under 1,000", fmtExtra: "Only JEE Main top 2.5L qualifiers eligible — must qualify Main in the same year", link: "jeeadv.ac.in", colleges: "IIT Bombay, IIT Delhi, IIT Madras, IIT Kanpur, IIT Kharagpur" },
+  { name: "TANCET", stream: "science", subj: "PCM/PCB", reqMaths: false, reqBio: false, gets: "Tamil Nadu state engg / pharmacy colleges", difficulty: "Moderate", fees: "₹1–3L (4yr)", salary: "₹4–9 LPA", tag: "🛟", month: "May 2027", when: "May", fmtMode: "Offline · MCQ", fmtQs: "~100 Qs, state-specific marking", cutoff: "Rank under 5,000 for CSE at a good TN college", fmtExtra: "Pure PCM syllabus — home-state quota benefits TN students significantly", link: "annauniv.edu/tancet", colleges: "Anna University affiliated colleges, Tamil Nadu" },
+  { name: "GUJCET", stream: "science", subj: "PCM/PCB", reqMaths: false, reqBio: false, gets: "Gujarat state engg / pharmacy colleges", difficulty: "Moderate", fees: "₹1–3L (4yr)", salary: "₹4–9 LPA", tag: "🛟", month: "Mar 2027", when: "March", fmtMode: "Offline · MCQ", fmtQs: "~120 Qs (Physics + Chemistry + Maths/Bio)", cutoff: "Rank under 5,000 — used alongside JEE Main percentile", fmtExtra: "JEE Main score is also factored in — dual-use prep is efficient", link: "gseb.org", colleges: "LDCE Ahmedabad, Nirma University, state engg colleges" },
+  { name: "OJEE", stream: "science", subj: "PCM/PCB", reqMaths: false, reqBio: false, gets: "Odisha state engg / pharmacy / lateral entry B.Tech", difficulty: "Moderate", fees: "₹1–2L (4yr)", salary: "₹4–8 LPA", tag: "🛟", month: "May 2027", when: "May", fmtMode: "CBT · MCQ", fmtQs: "~120 Qs (PCM)", cutoff: "Rank under 5,000 for a decent branch", fmtExtra: "Diploma holders can use the lateral-entry track — separate test within OJEE", link: "ojee.nic.in", colleges: "CET Bhubaneswar, ITER, state engg colleges" },
+  { name: "CUSAT CAT", stream: "science", subj: "PCM", reqMaths: true, reqBio: false, gets: "Cochin University — B.Tech, BCA, 5yr LLB", difficulty: "Moderate", fees: "₹1–3L (4yr)", salary: "₹5–12 LPA", tag: "⭐", month: "Apr 2027", when: "April", fmtMode: "CBT · 2 hrs", fmtQs: "~150 Qs (PCM-based)", cutoff: "Rank under 2,000 for CSE", fmtExtra: "Central-govt-aided university fees — 20–30% of comparable private college cost", link: "cusat.ac.in", colleges: "Cochin University of Science and Technology, Kochi" },
+  { name: "KIITEE", stream: "science", subj: "PCM", reqMaths: true, reqBio: false, gets: "KIIT University Bhubaneswar — B.Tech", difficulty: "Moderate", fees: "₹14–18L (4yr, private)", salary: "₹6–12 LPA", tag: "", month: "Apr 2027", when: "Apr–May", fmtMode: "CBT · 3 hrs", fmtQs: "120 Qs · +4/−1", cutoff: "Rank under 10,000", fmtExtra: "Strong East India private placement; multiple test slots per cycle", link: "kiit.ac.in", colleges: "KIIT University, Bhubaneswar" },
+  { name: "AEEE", stream: "science", subj: "PCM", reqMaths: true, reqBio: false, gets: "Amrita Vishwa Vidyapeetham — B.Tech", difficulty: "Moderate", fees: "₹12–18L (4yr, private)", salary: "₹6–12 LPA", tag: "", month: "Apr 2027", when: "Apr–May", fmtMode: "CBT · 2.5 hrs", fmtQs: "100 Qs · +3/−1", cutoff: "Rank under 20,000", fmtExtra: "Multiple attempt slots each cycle — meaningfully improves your chances", link: "amrita.edu/admissions", colleges: "Amrita Coimbatore, Bengaluru, Kochi, Chennai" },
+  { name: "PESSAT", stream: "science", subj: "PCM", reqMaths: true, reqBio: false, gets: "PES University Bengaluru — B.Tech", difficulty: "Moderate", fees: "₹12–16L (4yr, private)", salary: "₹6–14 LPA", tag: "", month: "Apr 2027", when: "April–May", fmtMode: "CBT · 2 hrs", fmtQs: "180 Qs · +1/0", cutoff: "Rank under 5,000", fmtExtra: "Zero negative marking — a very different risk profile from JEE", link: "pes.edu", colleges: "PES University, Bengaluru" },
+  { name: "JIPMAT", stream: "commerce", subj: "Any", reqMaths: false, reqBio: false, gets: "IIM Bodh Gaya / Jammu / Sirmaur — Integrated BBA+MBA", difficulty: "Moderate", fees: "₹5–9L (5yr)", salary: "₹12–22 LPA", tag: "⭐", month: "Jun 2027", when: "June", fmtMode: "CBT · 2.5 hrs", fmtQs: "100 Qs — Quant, Verbal, Data Interpretation", cutoff: "Top ~2,500 rank for any of the three newer IIMs", fmtExtra: "Less competitive than IPMAT Indore — same IIM pedigree, newer and smaller batch", link: "jipmat.nta.nic.in", colleges: "IIM Bodh Gaya, IIM Jammu, IIM Sirmaur" },
+  { name: "GGSIPU CET BBA", stream: "commerce", subj: "Any", reqMaths: false, reqBio: false, gets: "IP University Delhi — BBA, B.Com (Hons)", difficulty: "Moderate", fees: "₹80K–2L (3yr)", salary: "₹5–10 LPA", tag: "", month: "May 2027", when: "May", fmtMode: "CBT · 2.5 hrs", fmtQs: "~150 Qs — Quant, English, GK, Logical Reasoning", cutoff: "Rank under 3,000 for BBA at a good IP University college", fmtExtra: "Low fees at a centralised Delhi university — easy to run alongside CUET prep", link: "ipu.ac.in", colleges: "VIPS Delhi, BVICAM, IP University constituent colleges" },
+  { name: "UGAT", stream: "commerce", subj: "Any", reqMaths: false, reqBio: false, gets: "BBA / B.Com / BCA / Hotel Mgmt — 700+ AIMA colleges", difficulty: "Easy-Mod", fees: "₹2–8L (3yr)", salary: "₹4–8 LPA", tag: "", month: "May 2027", when: "May", fmtMode: "Offline MCQ · 2 hrs", fmtQs: "175 Qs — English, Maths, GK, Reasoning", cutoff: "No centralized cutoff — each college sets its own", fmtExtra: "One exam, 700+ AIMA-affiliated colleges — the widest safety-net for Commerce students", link: "aima.in/ugat", colleges: "700+ AIMA-affiliated colleges across India" },
+  { name: "LSAT India", stream: "arts", subj: "Any", reqMaths: false, reqBio: false, gets: "150+ private law schools — BA LLB, BBA LLB", difficulty: "Moderate", fees: "₹8–18L (5yr)", salary: "₹8–20 LPA", tag: "", month: "Jan 2027", when: "Jan + May", fmtMode: "CBT · 2 hrs 20 min", fmtQs: "92 Qs — Analytical Reasoning, Logical, Reading Comprehension", cutoff: "No centralized rank — each school sets its own score cutoff", fmtExtra: "Pure reasoning test, no subject knowledge tested — accepted by 150+ private law schools", link: "discoverlaw.in", colleges: "Jindal Global Law School, Symbiosis Law, Amity Law" },
+  { name: "MHCET Law", stream: "arts", subj: "Any", reqMaths: false, reqBio: false, gets: "Maharashtra state law colleges — 5yr & 3yr LLB", difficulty: "Moderate", fees: "₹40K–2L (5yr, govt)", salary: "₹6–14 LPA", tag: "🛟", month: "Apr 2027", when: "April", fmtMode: "Offline · 2 hrs", fmtQs: "150 Qs — Legal Aptitude, GK, Maths, English, Logical", cutoff: "Rank under 2,000 for ILS Pune or Govt Law College Mumbai", fmtExtra: "MH state domicile quota is large — govt law colleges here have very low fees", link: "mahacet.org", colleges: "ILS Law College Pune, Govt Law College Mumbai" },
+  { name: "TS/AP LAWCET", stream: "arts", subj: "Any", reqMaths: false, reqBio: false, gets: "Telangana/Andhra law colleges — 3yr & 5yr LLB", difficulty: "Moderate", fees: "₹20K–1L (5yr)", salary: "₹5–12 LPA", tag: "🛟", month: "May 2027", when: "May", fmtMode: "Offline · 1.5 hrs", fmtQs: "120 Qs — GK, Mental Ability, Legal Aptitude", cutoff: "Rank under 3,000 for OU Law / state law colleges", fmtExtra: "Govt law colleges here charge among the lowest fees in India", link: "lawcet.tsche.ac.in", colleges: "OU Law College Hyderabad, AU Law College Vizag" },
+  { name: "Pearl Academy Entrance", stream: "arts", subj: "Any", reqMaths: false, reqBio: false, gets: "Fashion / Design / Media — Pearl Academy campuses", difficulty: "Moderate", fees: "₹12–18L (3yr, private)", salary: "₹5–10 LPA", tag: "", month: "Jan 2027", when: "Jan–Mar", fmtMode: "Online aptitude + GD/PI", fmtQs: "Creative aptitude test + Group Discussion + Interview", cutoff: "Portfolio and interview performance weighted alongside aptitude", fmtExtra: "Creative portfolio submission matters as much as the written component", link: "pearlacademy.com", colleges: "Pearl Academy Delhi, Mumbai, Jaipur, Bengaluru" },
+  { name: "Srishti Design Entrance", stream: "arts", subj: "Any", reqMaths: false, reqBio: false, gets: "Communication Design, Film, Liberal Arts — Srishti-Manipal", difficulty: "Moderate", fees: "₹8–14L (4yr)", salary: "₹5–12 LPA", tag: "", month: "Jan 2027", when: "Jan–Feb", fmtMode: "Portfolio + Online test + Interview", fmtQs: "Situation-based creative tasks + written comprehension", cutoff: "Portfolio and interview performance — no standard rank system", fmtExtra: "Project-based learning focus — one of India's most progressive design institutions", link: "srishti.ac.in", colleges: "Srishti-Manipal Institute of Art, Design & Technology, Bengaluru" },
+  { name: "KLEE", stream: "arts", subj: "Any", reqMaths: false, reqBio: false, gets: "Kerala state law colleges — 5yr & 3yr LLB", difficulty: "Moderate", fees: "₹20K–1L (5yr)", salary: "₹5–14 LPA", tag: "", month: "Apr 2027", when: "April", fmtMode: "Offline · 2 hrs", fmtQs: "200 MCQs — GK, Mental Ability, English, Legal Aptitude", cutoff: "Rank under 2,000 for a government law college seat", fmtExtra: "Kerala domicile essential — very low fees at government colleges", link: "cee.kerala.gov.in", colleges: "Govt Law College Ernakulam, Govt Law College Thiruvananthapuram" },
+  { name: "AMU Humanities Entrance", stream: "arts", subj: "Any", reqMaths: false, reqBio: false, gets: "Aligarh Muslim University — BA Hons, BPA, B.Lib.Sc.", difficulty: "Moderate", fees: "Low (central univ)", salary: "₹4–9 LPA", tag: "", month: "May 2027", when: "May", fmtMode: "Offline · MCQ + descriptive", fmtQs: "Varies by programme — typically ~100 Qs", cutoff: "Rank under 1,000 for popular programmes", fmtExtra: "Central university fees — Urdu/Arabic-medium options and research culture unique to AMU", link: "amucontrollerexams.com", colleges: "Aligarh Muslim University, Aligarh" },
 ];
 
 const UNDERRATED = [
   { name: "ISI Admission Test", where: "Indian Statistical Institute, Kolkata", why: "India's top Maths/Stats institute — tiny applicant pool vs JEE/NEET, low fees, runs its own quiet entrance.", link: "admission.isical.ac.in" },
   { name: "CMI Entrance", where: "Chennai Mathematical Institute", why: "Elite, research-mentored, almost unknown outside Olympiad circles. Strong Olympiad rank can waive the test.", link: "cmi.ac.in" },
+  { name: "CUSAT CAT", where: "Cochin University of Science & Technology, Kochi", why: "Central-govt-aided university B.Tech at 20–30% of private college fees — almost nobody outside Kerala applies for it.", link: "cusat.ac.in" },
   { name: "AMU Engineering Entrance", where: "Aligarh Muslim University", why: "A central-university B.Tech most students forget to apply for since it isn't via JEE or CUET.", link: "amucontrollerexams.com" },
   { name: "AFMC (via NEET)", where: "Armed Forces Medical College, Pune", why: "Same NEET score, but leads to an MBBS plus guaranteed officer commission in the Armed Forces.", link: "afmc.nic.in" },
+  { name: "JIPMAT", where: "IIM Bodh Gaya / IIM Jammu / IIM Sirmaur", why: "Same IIM degree as IPMAT but the entrance is significantly less competitive — most Commerce students don't know IIM Bodh Gaya exists.", link: "jipmat.nta.nic.in" },
   { name: "FTII / SRFTI", where: "Pune & Kolkata — Film & TV Institutes", why: "India's premier government film schools — genuinely tiny intake, almost never mentioned alongside standard career exams despite strong industry placement.", link: "ftii.ac.in" },
   { name: "ACET (Actuarial Science)", where: "Institute of Actuaries of India", why: "One of the highest-ceiling Commerce-adjacent careers in India, and most Commerce students have never heard of it — needs strong Maths, not accounting.", link: "actuariesindia.org" },
   { name: "JEXPO (WB Polytechnic)", where: "West Bengal Government Polytechnics", why: "A near-zero-cost route to the same B.Tech degree via lateral entry into 2nd year — genuinely underused as a fallback by WB students specifically.", link: "wbscte.co.in" },
@@ -87,13 +107,19 @@ const SCHOLARSHIPS = [
   { name: "Central Sector Scheme", region: "India-wide", note: "Free, via National Scholarship Portal. Merit + income based, renewable." },
   { name: "SVMCM", region: "West Bengal", note: "Free. WB's own scholarship, Class 11 through PG." },
   { name: "National Overseas Scholarship", region: "India (SC/ST/notified)", note: "Free. Govt of India fully funds study abroad, income-capped." },
+  { name: "PM YASASVI", region: "India-wide (OBC/EBC/DNT)", note: "Free, via NSP. Top-class school scholarship covering Classes 9 & 11 — feeds directly into board preparation support." },
+  { name: "Ishan Uday", region: "North-East India", note: "Free. UGC scholarship for NE students joining central or state universities outside their home state." },
+  { name: "Post-Matric SC/ST Scholarship", region: "India-wide", note: "Free. State + central govt funds tuition + maintenance allowance for SC/ST students at any recognised college." },
 ];
 
 const MONTH_ORDER = ["Dec 2026", "Jan 2027", "Feb 2027", "Mar 2027", "Apr 2027", "May 2027", "Jun 2027", "Jul 2027", "Aug 2027", "Dec 2027"];
 const MONTH_EXTRAS = {
-  "Feb 2027": ["State CET registration windows open (MHT-CET/KCET/KEAM/EAMCET/COMEDK)"],
+  "Dec 2026": ["CLAT & AILET registration deadlines — NLU applicants must apply now", "NID DAT Prelims window opens for Arts stream"],
+  "Feb 2027": ["State CET registration windows open (MHT-CET/KCET/KEAM/EAMCET/COMEDK)", "NEET UG registration typically opens around this window"],
+  "Mar 2027": ["GUJCET scheduled — Gujarat state students note", "CA Foundation May attempt registration window opens", "CSEET March session"],
+  "Jun 2027": ["JEE Advanced result declared → JoSAA seat allocation begins", "JIPMAT result and IIM counselling"],
   "Jul 2027": ["JoSAA rounds 1–5 begin", "NEET & WBJEE counselling begins", "State Pharmacy CET counselling"],
-  "Aug 2027": ["CSAB special rounds", "IISER/NISER counselling", "Most college sessions begin"],
+  "Aug 2027": ["CSAB special rounds", "IISER/NISER counselling", "Most college sessions begin — confirm your seat acceptance"],
 };
 
 const RESERVATION = [
@@ -106,13 +132,17 @@ const RESERVATION = [
 
 const GLOSSARY = [
   { t: "JoSAA", d: "Joint Seat Allocation Authority — runs IIT/NIT/IIIT admissions" },
-  { t: "CSAB", d: "Fills leftover NIT+ seats after JoSAA, needs fresh registration" },
+  { t: "CSAB", d: "Fills leftover NIT+ seats after JoSAA; needs a completely fresh registration" },
   { t: "AIQ", d: "All India Quota — 15% of NEET govt seats open to all states" },
-  { t: "TFW", d: "Tuition Fee Waiver scheme for low-income students" },
+  { t: "TFW", d: "Tuition Fee Waiver scheme for low-income students at NITs" },
   { t: "GFTI", d: "Government Funded Technical Institute, beyond IIT/NIT/IIIT" },
-  { t: "Spot round", d: "Final, fast counselling round to fill last vacant seats" },
-  { t: "Non-creamy layer", d: "OBC sub-status based on family income, needed for OBC-NCL" },
-  { t: "Home state", d: "The state whose quota you're eligible for at NITs" },
+  { t: "Spot round", d: "Final, fast counselling round to fill last vacant seats — often overlooked" },
+  { t: "Non-creamy layer", d: "OBC sub-status based on family income, needed for OBC-NCL reservation benefit" },
+  { t: "Home state", d: "The state whose quota you're eligible for at NITs — typically where you studied 11th & 12th" },
+  { t: "Integrated course", d: "Combined UG+PG (5yr) or UG+PhD programme — no gap year between degrees" },
+  { t: "DASA", d: "Direct Admission of Students Abroad — NRI/OCI quota in NITs, SAT score required" },
+  { t: "Deemed University", d: "Institute granted university status by MHRD — always verify AICTE/UGC/NMC approval before paying any fee" },
+  { t: "Merit list", d: "Ranked list of qualified candidates used for round-wise seat allocation" },
 ];
 
 const DOCS = ["Class 10 & 12 mark sheets + admit cards", "Aadhaar card", "Category certificate (SC/ST/OBC-NCL)", "Income certificate", "Domicile certificate", "Passport photos + signature scans", "Bank account in your own name"];
@@ -124,6 +154,9 @@ const RED_FLAGS = [
   "Pressure to pay non-refundable seat-blocking fees in 24 hrs",
   "Colleges without valid AICTE/UGC/NMC approval for that year",
   "Scholarship \"consultants\" charging large upfront fees",
+  "Websites with '.edu.in' domains mimicking official portals — always type URLs manually, never click email links",
+  "Coaching institutes claiming their 'exclusive material' is the only way to clear any exam — NCERT + previous papers is almost always enough to start",
+  "Offers of guaranteed NRI or management quota seats through WhatsApp or Instagram — no legitimate seat works that way",
 ];
 
 const FALLBACKS = [
@@ -159,6 +192,7 @@ const SITUATIONS = [
   { icon: "🌀", title: "Lost all of Class 11", who: "Class 11 barely happened. Class 12 now carries two years of ground.", steps: ["Rebuild Class 11 in parallel, chapter by chapter — don't skip it", "Look for a combined foundation + 12th batch instead of solo effort", "Boards first this cycle; keep a drop year genuinely on the table"] },
   { icon: "🚨", title: "Lost all of Class 12", who: "Boards are close and the syllabus is untouched. Tightest spot here — still recoverable.", steps: ["Emergency mode: pass boards respectably, nothing else yet", "Don't chase full entrance syllabus in the weeks left", "Decide on a drop year now, not after results — saves months"] },
   { icon: "🏆", title: "Aced Class 11 & 12", who: "Strong, consistent fundamentals — the question is how to convert that.", steps: ["Shift to mock-test volume, timing, and error analysis", "Consider the Olympiad circuit for a genuine edge", "Aim wide: your stream's top-tier options overlap in prep"] },
+  { icon: "🔄", title: "Repeater / Gap Year", who: "Already sat one cycle. Score didn't convert. Now with a full year ahead.", steps: ["Cold-start with a mock test today — know your real baseline, not your memory of it", "Identify the 2–3 root causes the last attempt didn't work; address those specifically", "Weekly targets, not just an exam date — the gap year is the plan itself"] },
 ];
 
 const DROP_PROS = ["10–12 undivided months, zero board distractions", "Time for 4 revision cycles instead of 1", "You already know real exam pressure & timing", "Documented score jumps for a structured plan"];
@@ -177,6 +211,11 @@ const FAQS = [
   { q: "Can I switch from B.Com into law or CA later on?", a: "Yes — CLAT/AILET are open to any stream and any year of graduation isn't required for the 5-year integrated route straight after 12th. CA Foundation is also open to any stream right after 12th, so neither path requires you to have started Commerce with that specific plan." },
   { q: "Does a design portfolio matter for NID even with a good DAT score?", a: "Yes — DAT Prelims is a screening MCQ round, but the Studio Test and later interview weigh creative/portfolio work heavily. A high Prelims score gets you to the next round, it doesn't guarantee admission on its own." },
   { q: "Is ACET (Actuarial Science) worth it if I'm not sure about a Maths-heavy career?", a: "It's a genuinely narrow, demanding path — strong Maths/Stats fundamentals are non-negotiable, and the real qualification comes from clearing multiple professional exams after ACET, not the entrance itself. Worth it only if you enjoy quantitative problem-solving specifically, not as a generic backup." },
+  { q: "Can I appear for JEE Advanced without sitting JEE Main?", a: "No — JEE Advanced requires you to be in the top 2.5 lakh of JEE Main Paper 1 qualifiers in the same year. You cannot attempt Advanced directly without qualifying Main first." },
+  { q: "What is the difference between IPMAT and JIPMAT?", a: "IPMAT (IIM Indore's own test) gives access to IIM Indore and IIM Rohtak's 5-year Integrated Programme. JIPMAT (conducted by NTA) gives access to IIM Bodh Gaya, IIM Jammu, and IIM Sirmaur — less competitive, same IIM degree." },
+  { q: "Do state law exams (MHCET Law, KLEE, LAWCET) conflict with CLAT dates?", a: "Usually not — state law exams are scheduled independently of CLAT, so you can appear for all of them in the same cycle. Always check official calendars once notifications drop." },
+  { q: "Is a gap year treated differently for NEET compared to JEE Main?", a: "For NEET there's currently no attempt cap (as of 2027 cycle). For JEE Main, the window is 3 consecutive years from your Class 12 passing year — a gap year uses one of those years whether you attempt or not. NEET gives you more flexibility on this specific point." },
+  { q: "What does 'no negative marking' actually mean in practice for exams like VITEEE?", a: "It means you should attempt every single question — leaving a question blank has the same result as getting it wrong. This fundamentally changes exam strategy: speed and coverage beat selective caution." },
 ];
 
 const SALARY_DATA = [
@@ -205,13 +244,23 @@ const SALARY_DATA = [
   { name: "AILET (NLU Delhi)", value: 13, stream: "arts", fill: "#e7a0ae" },
   { name: "NIFT (Fashion Design)", value: 6, stream: "arts", fill: "#e7a0ae" },
   { name: "CUET → Central Univ BSc", value: 6, stream: "all", fill: "#e8b86d" },
+  { name: "IIT B.Tech (JEE Advanced)", value: 25, stream: "science", fill: "#8fb4e3" },
+  { name: "TANCET / GUJCET State Engg", value: 6, stream: "science", fill: "#8fb4e3" },
+  { name: "KIITEE / AEEE / PESSAT", value: 8, stream: "science", fill: "#8fb4e3" },
+  { name: "JIPMAT (IIM — post-MBA)", value: 16, stream: "commerce", fill: "#9bc9a0" },
+  { name: "GGSIPU BBA (IP University)", value: 6, stream: "commerce", fill: "#9bc9a0" },
+  { name: "LSAT India (Private Law)", value: 10, stream: "arts", fill: "#e7a0ae" },
+  { name: "MHCET / KLEE (State Law)", value: 7, stream: "arts", fill: "#e7a0ae" },
+  { name: "Pearl / Srishti Design", value: 7, stream: "arts", fill: "#e7a0ae" },
 ];
 
 const PLAN_STEPS = [
   { t: "Right Now — Lock the Syllabus", d: "Whatever your stream, board syllabus completion comes first — it underwrites 70–80% of every entrance exam on this app." },
-  { t: "This Year — Register Widely", d: "Prep overlaps heavily within a stream. Sit for every exam that shares your syllabus — more attempts, more safety nets." },
-  { t: "Know Your Financial Aid", d: "NISER pays a stipend. IIT/NIT waive fees under ₹5–9L income. Central universities charge as little as ₹5,000/yr." },
+  { t: "This Week — Build One Strong Backup", d: "Every top choice needs a safety net. Pick one lower-pressure exam that genuinely leads somewhere good — CUET + one state CET costs almost nothing extra to add." },
+  { t: "This Year — Register Widely", d: "Prep overlaps heavily within a stream. Sit for every exam that shares your syllabus — more attempts, more safety nets, more leverage." },
+  { t: "Know Your Financial Aid", d: "NISER pays a stipend. IIT/NIT waive fees under ₹5–9L income. Central universities charge as little as ₹5,000/yr. Check before assuming a top college is out of reach." },
   { t: "Keep A Realistic Scenario Map", d: "Every outcome on this app — top choice or fifth choice — leads somewhere genuinely good. No single exam decides your future." },
+  { t: "Tell Someone Your Plan", d: "Announcing your targets to a parent, teacher, or trusted friend builds accountability — and means someone will notice early if things start going off track." },
 ];
 
 const TABS = [
@@ -277,19 +326,70 @@ function parseHash() {
   };
 }
 
+// Fee calculator — approx. registration fee per exam (INR). Module-level so it's not recreated per render.
+const FEE_MAP = {
+  "JEE Main": 650, "JEE Advanced": 400, "NEET UG": 1700, "BITSAT": 3400,
+  "VITEEE": 1150, "SRMJEEE": 1200, "Manipal MET": 650, "KIITEE": 1350,
+  "AEEE": 1000, "PESSAT": 800, "CUSAT CAT": 700, "TANCET": 500,
+  "GUJCET": 300, "OJEE": 500, "MHT-CET": 800, "KCET": 500,
+  "WBJEE": 500, "COMEDK UGET": 1600, "CLAT": 4000, "AILET": 3500,
+  "IPMAT": 2000, "JIPMAT": 800, "CUET UG": 350, "NDA": 100,
+  "IMU CET": 1000, "NID DAT": 2000, "NIFT Entrance": 2000, "UCEED": 2000,
+  "NATA / JEE Paper 2": 2000, "NCHM JEE": 800,
+  "CA Foundation": 1500, "CSEET": 1000, "CMA Foundation": 1200, "ACET": 1200,
+  "SSC CHSL": 100, "GGSIPU CET BBA": 1000, "UGAT": 500,
+  "LSAT India": 3999, "MHCET Law": 800, "TS/AP LAWCET": 500, "KLEE": 300,
+  "NPAT / SET": 2500, "IAT (IISER)": 500, "NEST": 500,
+  "ISI Admission Test": 500, "CMI Entrance": 500,
+  "AMU Engineering Entrance": 500, "AMU Humanities Entrance": 500,
+  "AFMC (via NEET)": 0, "JEXPO": 200,
+  "TISS-BAT": 800, "IIMC / Jamia MassComm": 500,
+  "ICAR AIEEA": 800, "State Pharmacy CET": 500,
+  "Pearl Academy Entrance": 1500, "Srishti Design Entrance": 1000,
+  "FTII / SRFTI Entrance": 500, "NSD Entrance": 300,
+  "WBJEE": 500,
+};
+
 export default function CareerAtlas() {
-  const initial = useMemo(parseHash, []);
+  const [initial] = useState(parseHash);
   const [stream, setStream] = useState(initial.stream);
   const [tab, setTab] = useState(initial.tab);
   const [subjFilter, setSubjFilter] = useState("all"); // all | nomaths | nobio
   const [query, setQuery] = useState("");
   const [openFaq, setOpenFaq] = useState(null);
-  const [dark, setDark] = useState(false);
-  const [starred, setStarred] = useState(() => new Set());
-  const [checked, setChecked] = useState(() => new Set());
+  const [dark, setDark] = useState(() => {
+    try { return localStorage.getItem("ca-dark") === "1"; } catch { return false; }
+  });
+  const [starred, setStarred] = useState(() => {
+    try {
+      const raw = localStorage.getItem("ca-starred");
+      return raw ? new Set(JSON.parse(raw)) : new Set();
+    } catch { return new Set(); }
+  });
+  const [checked, setChecked] = useState(() => {
+    try {
+      const raw = localStorage.getItem("ca-checked");
+      return raw ? new Set(JSON.parse(raw)) : new Set();
+    } catch { return new Set(); }
+  });
   const [onlyStarred, setOnlyStarred] = useState(false);
   const [expanded, setExpanded] = useState(() => new Set());
-  const [showOnboarding, setShowOnboarding] = useState(() => !window.location.hash);
+  const [showOnboarding, setShowOnboarding] = useState(() => !(typeof window !== "undefined" && window.location.hash && window.location.hash.length > 1));
+  const [feeCalcOpen, setFeeCalcOpen] = useState(false);
+  const [urlCopied, setUrlCopied] = useState(false);
+
+  // Persist dark mode
+  useEffect(() => { try { localStorage.setItem("ca-dark", dark ? "1" : "0"); } catch {} }, [dark]);
+
+  // Persist starred exams
+  useEffect(() => {
+    try { localStorage.setItem("ca-starred", JSON.stringify([...starred])); } catch {}
+  }, [starred]);
+
+  // Persist checked items
+  useEffect(() => {
+    try { localStorage.setItem("ca-checked", JSON.stringify([...checked])); } catch {}
+  }, [checked]);
 
   // keep URL hash in sync so the view is shareable / survives refresh
   useEffect(() => {
@@ -406,13 +506,69 @@ export default function CareerAtlas() {
     });
   }, [starredExams]);
 
+  // WhatsApp share
+  const shareWhatsApp = useCallback(() => {
+    const lines = starredExams.map((e) => `• ${e.name} — ${e.gets} (${e.link})`);
+    const text = encodeURIComponent(`My Class 12 exam shortlist (Career Atlas):\n\n${lines.join("\n")}\n\nFull guide: ${window.location.href}`);
+    window.open(`https://wa.me/?text=${text}`, "_blank");
+  }, [starredExams]);
+
+  // Share URL
+  const shareUrl = useCallback(() => {
+    navigator.clipboard?.writeText(window.location.href).then(() => {
+      setUrlCopied(true);
+      setTimeout(() => setUrlCopied(false), 2000);
+    });
+  }, []);
+
+  // ICS calendar export
+  const exportICS = useCallback(() => {
+    const pad = (n) => String(n).padStart(2, "0");
+    const icsDate = (d) => `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+    const baseYear = 2027;
+    const monthMap = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+    const events = starredExams
+      .filter((e) => e.when && e.month)
+      .map((e) => {
+        const mStr = e.month.replace(" 2027", "").replace(" 2026", "").trim();
+        const yr = e.month.includes("2026") ? 2026 : baseYear;
+        const mIdx = monthMap[mStr.slice(0, 3)];
+        if (mIdx === undefined) return null;
+        const d = new Date(yr, mIdx, 15);
+        const dtStart = icsDate(d);
+        const dtEnd = icsDate(new Date(yr, mIdx, 16));
+        return [
+          "BEGIN:VEVENT",
+          `DTSTART;VALUE=DATE:${dtStart}`,
+          `DTEND;VALUE=DATE:${dtEnd}`,
+          `SUMMARY:${e.name} exam (approx.)`,
+          `DESCRIPTION:${e.gets}. Link: https://${e.link}`,
+          `UID:careerAtlas-${e.name.replace(/\s/g, "-")}@ca`,
+          "END:VEVENT",
+        ].join("\r\n");
+      })
+      .filter(Boolean);
+    const ics = ["BEGIN:VCALENDAR", "VERSION:2.0", "CALSCALE:GREGORIAN", "PRODID:-//CareerAtlas//EN", ...events, "END:VCALENDAR"].join("\r\n");
+    const blob = new Blob([ics], { type: "text/calendar" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "career-atlas-exams.ics";
+    a.click();
+  }, [starredExams]);
+
+  // Fee calculator data — approx. registration fee per exam (INR)
+  // totalFees uses module-level FEE_MAP (defined above the component)
+  const totalFees = useMemo(
+    () => starredExams.reduce((sum, e) => sum + (FEE_MAP[e.name] || 800), 0),
+    [starredExams]
+  );
+
   const prepList = FREE_PREP[stream] || FREE_PREP.all;
   const meta = STREAM_META[stream];
 
   return (
     <div className={`clay-root ${dark ? "dark" : ""}`}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
         .clay-root {
           --bg1: #f3eefb; --bg2: #fbefe7;
@@ -451,6 +607,8 @@ export default function CareerAtlas() {
 
         @keyframes clayPop { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
         .clay-pop { animation: clayPop .35s ease both; }
+
+        @keyframes heartbeat { 0%,100% { transform: scale(1); } 14% { transform: scale(1.3); } 28% { transform: scale(1); } 42% { transform: scale(1.2); } 56% { transform: scale(1); } }
 
         .clay-pill {
           display: inline-flex; align-items: center; gap: 7px;
@@ -496,7 +654,11 @@ export default function CareerAtlas() {
         .clay-btn-icon:hover { transform: scale(1.06); }
         .clay-btn-icon:active { transform: scale(.92); box-shadow: inset 3px 3px 6px rgba(120,105,160,.3), inset -3px -3px 6px rgba(255,255,255,.6); }
 
-        .clay-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; padding: 8px 14px; border-radius: 999px; text-decoration: none; background: #3d3557; color: #f6f1fc !important; }
+        .clay-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; padding: 8px 14px; border-radius: 999px; text-decoration: none; background: #3d3557; color: #f6f1fc !important; cursor: pointer; }
+        .clay-root.dark .clay-pill { box-shadow: 5px 5px 10px rgba(0,0,0,.35), -5px -5px 10px rgba(255,255,255,.04); }
+        .clay-root.dark .clay-card { box-shadow: 9px 9px 18px rgba(0,0,0,.4), -8px -8px 16px rgba(255,255,255,.03), inset 0 1px 1px rgba(255,255,255,.07); }
+        .clay-root.dark .clay-btn-icon { box-shadow: 4px 4px 9px rgba(0,0,0,.4), -4px -4px 9px rgba(255,255,255,.03); }
+        .clay-root.dark .clay-input { box-shadow: inset 4px 4px 9px rgba(0,0,0,.35), inset -4px -4px 9px rgba(255,255,255,.03); }
 
         .clay-check { width: 22px; height: 22px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer;
           box-shadow: inset 3px 3px 6px rgba(120,105,160,.25), inset -3px -3px 6px rgba(255,255,255,.7); }
@@ -567,22 +729,73 @@ export default function CareerAtlas() {
           <div className="clay-node clay-header-badge" style={{ background: "var(--card)" }}>
             <Sparkles size={14} /> Career Atlas<span className="badge-suffix"> · Class 12, All Streams</span>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap justify-end">
             {starred.size > 0 && (
               <button className="clay-btn-icon" onClick={() => setOnlyStarred((v) => !v)} title="Show starred only" style={onlyStarred ? { background: "var(--gold)" } : {}}>
                 <Star size={17} fill={onlyStarred ? "#4a3418" : "none"} />
               </button>
             )}
             {starred.size > 0 && (
-              <button className="clay-btn-icon" onClick={copyShortlist} title="Copy starred list">
+              <button className="clay-btn-icon" onClick={copyShortlist} title="Copy shortlist">
                 {copied ? <Check size={17} color="var(--com)" /> : <Copy size={17} />}
               </button>
             )}
+            {starred.size > 0 && (
+              <button className="clay-btn-icon" onClick={shareWhatsApp} title="Share on WhatsApp" style={{ background: "#25D366", color: "#fff" }}>
+                <span style={{ fontSize: 16, lineHeight: 1 }}>W</span>
+              </button>
+            )}
+            {starred.size > 0 && (
+              <button className="clay-btn-icon" onClick={exportICS} title="Export to Google Calendar (.ics)">
+                <CalendarDays size={17} />
+              </button>
+            )}
+            <button className="clay-btn-icon" onClick={shareUrl} title="Copy page URL">
+              {urlCopied ? <Check size={17} color="var(--com)" /> : <ExternalLink size={17} />}
+            </button>
             <button className="clay-btn-icon" onClick={() => setDark((d) => !d)} aria-label="Toggle theme">
               {dark ? <Sun size={17} /> : <Moon size={17} />}
             </button>
           </div>
         </div>
+
+        {/* ── FEE CALCULATOR BANNER ── */}
+        {starred.size > 0 && (
+          <div
+            className="clay-card clay-pop mb-4"
+            style={{ padding: "12px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10, cursor: "pointer" }}
+            onClick={() => setFeeCalcOpen((v) => !v)}
+          >
+            <div className="flex items-center gap-3">
+              <Wallet size={16} style={{ color: "var(--gold)", flexShrink: 0 }} />
+              <span style={{ fontWeight: 600, fontSize: 14 }}>
+                {starred.size} exam{starred.size > 1 ? "s" : ""} starred · approx. registration cost: <span style={{ color: "var(--gold)" }}>₹{totalFees.toLocaleString("en-IN")}</span>
+              </span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span className="clay-body-text" style={{ fontSize: 12 }}>{feeCalcOpen ? "hide breakdown" : "see breakdown"}</span>
+              <ChevronDown size={14} style={{ transform: feeCalcOpen ? "rotate(180deg)" : "none", transition: "transform .2s", color: "var(--muted)" }} />
+            </div>
+          </div>
+        )}
+        {feeCalcOpen && starred.size > 0 && (
+          <div className="clay-card clay-pop mb-5" style={{ padding: "16px 20px" }}>
+            <div className="clay-eyebrow mb-3">Approximate registration fee per exam</div>
+            <div className="grid gap-2" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))" }}>
+              {starredExams.map((e) => (
+                <div key={e.name} className="flex justify-between text-sm" style={{ borderBottom: "1px solid rgba(120,105,160,.12)", paddingBottom: 5 }}>
+                  <span style={{ fontWeight: 600 }}>{e.name}</span>
+                  <span className="clay-body-text">₹{(FEE_MAP[e.name] || 1000).toLocaleString("en-IN")}</span>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-between mt-4 pt-3" style={{ borderTop: "2px solid rgba(120,105,160,.2)", fontWeight: 700 }}>
+              <span>Total (approx.)</span>
+              <span style={{ color: "var(--gold)" }}>₹{totalFees.toLocaleString("en-IN")}</span>
+            </div>
+            <p className="clay-body-text mt-2" style={{ fontSize: 11.5 }}>Fees are indicative and may vary by category (SC/ST/PwD often pay less). Always verify on the official site before applying.</p>
+          </div>
+        )}
 
         <ClayCard className="mb-8 clay-hero">
           <h1 className="clay-h1" style={{ fontSize: 44, lineHeight: 1.1, marginBottom: 14 }}>
@@ -674,7 +887,7 @@ export default function CareerAtlas() {
                           <Chip bg="var(--gold-bg)" color="#4a3418">{e.fmtQs}</Chip>
                         </div>
                         <p className="clay-body-text mb-3"><b style={{ color: "var(--ink)" }}>Extra: </b>{e.fmtExtra}</p>
-                        <span className="clay-link">{e.link} <ExternalLink size={12} /></span>
+                        <a className="clay-link" href={`https://${e.link}`} target="_blank" rel="noreferrer">{e.link} <ExternalLink size={12} /></a>
                       </div>
                     )}
                   </ClayCard>
@@ -735,7 +948,7 @@ export default function CareerAtlas() {
                             <div className="text-sm">{v}</div>
                           </div>
                         ))}
-                        <span className="clay-link mt-1">{e.link} <ExternalLink size={12} /></span>
+                        <a className="clay-link mt-1" href={`https://${e.link}`} target="_blank" rel="noreferrer">{e.link} <ExternalLink size={12} /></a>
                       </ClayCard>
                     ))}
                   </div>
@@ -781,7 +994,7 @@ export default function CareerAtlas() {
                           <span style={{ fontWeight: 700, fontSize: 13.5 }}>{e.name}</span>
                           <Chip bg="var(--sci-bg)" color="#1c3252">{e.when}</Chip>
                         </div>
-                        <span className="clay-link" style={{ fontSize: 11 }}>{e.link} <ExternalLink size={11} /></span>
+                        <a className="clay-link" style={{ fontSize: 11 }} href={`https://${e.link}`} target="_blank" rel="noreferrer">{e.link} <ExternalLink size={11} /></a>
                       </ClayCard>
                     ))}
                     {extras.map((ex, i) => (
@@ -871,7 +1084,7 @@ export default function CareerAtlas() {
                   <div className="clay-h2 mb-1" style={{ fontSize: 16 }}>{u.name}</div>
                   <div className="clay-body-text mb-2" style={{ fontSize: 12.5 }}>{u.where}</div>
                   <p className="clay-body-text mb-3">{u.why}</p>
-                  <span className="clay-link">{u.link} <ExternalLink size={12} /></span>
+                  <a className="clay-link" href={`https://${u.link}`} target="_blank" rel="noreferrer">{u.link} <ExternalLink size={12} /></a>
                 </ClayCard>
               ))}
             </div>
@@ -1037,8 +1250,15 @@ export default function CareerAtlas() {
           </div>
         )}
 
-        <div className="text-center mt-14" style={{ color: "var(--muted)", fontSize: 12 }}>
-          Made by Sachin · Verified July 2026 · Link updates as you navigate — bookmark or share it directly
+        <div className="text-center mt-16" style={{ paddingBottom: 10 }}>
+          <div style={{ fontSize: 42, lineHeight: 1, marginBottom: 10, display: "inline-block", animation: "heartbeat 1.8s ease-in-out infinite" }}>❤️</div>
+          <div style={{ fontFamily: "'Baloo 2', sans-serif", fontSize: 34, fontWeight: 800, color: "var(--ink)", letterSpacing: "-.01em", marginBottom: 6 }}>
+            Made by <span style={{ color: "var(--gold)" }}>Sachin</span>
+          </div>
+          <div style={{ color: "var(--muted)", fontSize: 13, lineHeight: 1.7 }}>
+            Verified July 2026 · Covers Science, Commerce &amp; Arts · 55+ exams
+            <br />Link updates as you navigate — bookmark or share it directly
+          </div>
         </div>
       </div>
     </div>

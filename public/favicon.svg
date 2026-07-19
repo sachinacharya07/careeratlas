@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <!-- Background gradient matching the app's clay card feel -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3eefb"/>
+      <stop offset="100%" stop-color="#e8dff8"/>
+    </linearGradient>
+    <!-- Gold gradient for the needle / highlight -->
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5c97a"/>
+      <stop offset="100%" stop-color="#d4942a"/>
+    </linearGradient>
+    <!-- Purple gradient for the dark needle half -->
+    <linearGradient id="purple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6b5fa0"/>
+      <stop offset="100%" stop-color="#3d3557"/>
+    </linearGradient>
+    <!-- Drop shadow filter for clay depth -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="rgba(120,105,160,0.35)"/>
+    </filter>
+    <!-- Inner highlight filter -->
+    <filter id="inner-glow">
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <!-- Clip circle for compass face -->
+    <clipPath id="circle-clip">
+      <circle cx="32" cy="32" r="22"/>
+    </clipPath>
+  </defs>
+
+  <!-- Rounded square background (clay card shape) -->
+  <rect x="2" y="2" width="60" height="60" rx="16" ry="16"
+        fill="url(#bg)"
+        filter="url(#shadow)"/>
+
+  <!-- Subtle top-left highlight on the card (neumorphic light) -->
+  <rect x="2" y="2" width="60" height="60" rx="16" ry="16"
+        fill="none"
+        stroke="rgba(255,255,255,0.8)"
+        stroke-width="1.5"/>
+
+  <!-- Compass circle face -->
+  <circle cx="32" cy="32" r="22"
+          fill="white"
+          fill-opacity="0.55"
+          stroke="rgba(120,105,160,0.2)"
+          stroke-width="1"/>
+
+  <!-- Tick marks at N/S/E/W -->
+  <g stroke="rgba(120,105,160,0.4)" stroke-width="1.5" stroke-linecap="round">
+    <line x1="32" y1="12" x2="32" y2="16"/>  <!-- N -->
+    <line x1="32" y1="48" x2="32" y2="52"/>  <!-- S -->
+    <line x1="12" y1="32" x2="16" y2="32"/>  <!-- W -->
+    <line x1="48" y1="32" x2="52" y2="32"/>  <!-- E -->
+  </g>
+
+  <!-- Compass needle — gold NE half (pointing to opportunity) -->
+  <polygon points="32,14  28,33  32,30  36,33"
+           fill="url(#gold)"/>
+
+  <!-- Compass needle — purple SW half -->
+  <polygon points="32,50  28,31  32,34  36,31"
+           fill="url(#purple)"
+           fill-opacity="0.85"/>
+
+  <!-- Center pivot dot -->
+  <circle cx="32" cy="32" r="3"
+          fill="url(#gold)"
+          stroke="white"
+          stroke-width="1.5"/>
+
+  <!-- "CA" micro-text at bottom — visible at 32px+ sizes only -->
+  <text x="32" y="56"
+        text-anchor="middle"
+        font-family="'Outfit', system-ui, sans-serif"
+        font-weight="700"
+        font-size="5"
+        fill="#8177a0"
+        letter-spacing="0.5">CAREER ATLAS</text>
+</svg>
